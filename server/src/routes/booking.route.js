@@ -27,5 +27,4 @@ routes.get(
   bookingHistory
 );
 
-const bookingRoutes = routes;
-module.exports = bookingRoutes;
+exports.bookingRoutes = routes;

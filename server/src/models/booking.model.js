@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+const { Schema, model } = require("mongoose");
 
 const bookingSchema = new Schema({
   request_time: {

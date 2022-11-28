@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const config = {
+exports.config = {
   app: {
     port: process.env.APP_PORT,
     nodeEnv: process.env.APP_ENV,
@@ -26,5 +26,3 @@ const config = {
     client: process.env.GOOGLE_CLIENT_ID,
   },
 };
-
-module.exports = config;

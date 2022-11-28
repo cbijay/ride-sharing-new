@@ -1,5 +1,5 @@
-import { createTransport } from "nodemailer";
-import { config } from "../config";
+const { createTransport } = require("nodemailer");
+const { config } = require("../config");
 
 const transporter = createTransport({
   port: 465,

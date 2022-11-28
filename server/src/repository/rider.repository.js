@@ -1,4 +1,4 @@
-const getRidersByLocation = async (lat, long) => {
+exports.getRidersByLocation = async (lat, long) => {
   return await User.find({
     location: {
       $near: {
@@ -12,13 +12,13 @@ const getRidersByLocation = async (lat, long) => {
   });
 };
 
-const findSelectedRider = async (riderId) => {
+exports.findSelectedRider = async (riderId) => {
   return await User.aggregate([
     { $unwind: "$riders" },
     {
       $lookup: {
         from: "riders",
-        localField: "riders",
+        localField: "user_id",
         foreignField: "_id",
         as: "rider",
       },
@@ -30,5 +30,3 @@ const findSelectedRider = async (riderId) => {
     },
   ])[0];
 };
-
-module.exports = { getRidersByLocation, findSelectedRider };

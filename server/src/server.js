@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 const app = express();
 
 const config = require("./config");
@@ -9,6 +10,9 @@ const routes = require("./routes");
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(cookieParser());
+app.use(expressValidator());
 app.use("api", routes);
 
 module.exports = app.listen(config.app.port, () => {

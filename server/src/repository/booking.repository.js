@@ -1,6 +1,6 @@
-import { Booking } from "../models/booking.model";
+const { Booking } = require("../models/booking.model");
 
-const selectRide = async (body, userId, riderId) => {
+exports.selectRide = async (body, userId, riderId, otp) => {
   return await Booking.create({
     request_time: body.request_time,
     start_location: {
@@ -16,4 +16,48 @@ const selectRide = async (body, userId, riderId) => {
   });
 };
 
-module.exports = { selectRide };
+exports.validateRequest = async (otp) => {
+  return await Booking.findOne({ otp: otp });
+};
+
+exports.updateBooking = async (bookingId, query) => {
+  return await Booking.update({ _id: bookingId }, { $set: query });
+};
+
+exports.userCurrentBooking = async (userRole, userId) => {
+  return await Booking.aggregate([
+    { $unwind: "$users" },
+    {
+      $lookup: {
+        from: "users",
+        localId: userRole === "user" ? "user_id" : "rider_id",
+        foreignId: "_id",
+        as: userRole === "user" ? "user" : "rider",
+      },
+    },
+    {
+      $match: {
+        "users._id": userId,
+      },
+    },
+  ])[0];
+};
+
+exports.userBookingHistory = async (userRole, userId) => {
+  return await Booking.aggregate([
+    { $unwind: "$users" },
+    {
+      $lookup: {
+        from: "users",
+        localId: userRole === "user" ? "user_id" : "rider_id",
+        foreignId: "_id",
+        as: userRole === "user" ? "user" : "rider",
+      },
+    },
+    {
+      $match: {
+        "users._id": userId,
+      },
+    },
+  ]);
+};

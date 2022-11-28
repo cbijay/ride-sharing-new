@@ -11,7 +11,7 @@ const transporter = createTransport({
   secure: true,
 });
 
-export const sendMail = (to, subject, body, html) => {
+exports.sendMail = (to, subject, body, html) => {
   const mailData = {
     from: config.mail.user, // sender address
     to: to, // list of receivers

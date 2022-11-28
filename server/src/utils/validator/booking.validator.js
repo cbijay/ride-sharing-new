@@ -1,4 +1,4 @@
-const { cookie, param } = require("express-validator");
+const { cookie, param, query } = require("express-validator");
 
 exports.bookingValidator = (method) => {
   switch (method) {

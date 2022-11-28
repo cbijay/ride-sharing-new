@@ -1,4 +1,5 @@
-const config = require("../config");
+// const config = require("../config");
+const { config } = require("../config");
 const { OAuth2Client } = require("google-auth-library");
 
 const { createUser } = require("../repository/auth.repository");

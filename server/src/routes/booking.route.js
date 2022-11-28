@@ -3,6 +3,8 @@ const {
   bookRides,
   rideRequest,
   acceptOrRejectRequest,
+  currentBooking,
+  bookingHistory,
 } = require("../controller/booking.controller");
 const auth = require("../middleware/auth.middleware");
 const { bookingValidator } = require("../utils/validator/booking.validator");

@@ -1,41 +1,128 @@
 const { findSelectedRider } = require("../repository/rider.repository");
-const { selectRide } = require("../repository/booking.repository");
+const {
+  bookRide,
+  validateRequest,
+  updateBooking,
+  userCurrentBooking,
+  userBookingHistory,
+} = require("../repository/booking.repository");
 
 const { sendMail } = require("../utils/mail");
 const config = require("../config");
 
-exports.bookingSelectedRides = async (body, userId, userName, riderId) => {
+exports.bookRides = async (body, userId, userName, riderId) => {
   try {
     const otp = Math.random().toString(5);
-    const booking = await selectRide(body, userId, riderId, otp);
+    const booking = await bookRide(body, userId, riderId, otp);
 
     const rider = await findSelectedRider(riderId);
+    if (!rider) throw new Error("Error selecting rider");
 
-    if (booking)
-      sendMail(
-        rider.email,
-        `Ride request from ${userName}`,
-        `${config.client.url}/rider/request?token=${otp}`
-      );
+    sendMail(
+      rider.email,
+      `Ride request from ${userName}`,
+      `${config.client.url}/rider/request?token=${otp}`
+    );
 
-    return { booking };
-  } catch {
-    return { error: "Error booking your ride" };
+    return {
+      type: "Success",
+      statusCode: 200,
+      message: "Booked successfully!!",
+      booking,
+    };
+  } catch (err) {
+    return {
+      type: "Error",
+      statusCode: 500,
+      message: err.message,
+    };
   }
 };
 
-exports.updateBookingRequest = async (bookingId, status, email) => {
+exports.verifyRequest = async (token) => {
+  try {
+    const validateBooking = validateRequest(token);
+    if (!validateBooking) throw new Error("Link has been expired");
+
+    const booking = await updateBooking(booking._id, { otp: null });
+
+    return {
+      type: "Success",
+      statusCode: 200,
+      message: "Successfully verified!!",
+      booking,
+    };
+  } catch (err) {
+    return {
+      type: "Error",
+      statusCode: 500,
+      message: err.message,
+    };
+  }
+};
+
+exports.updateStatus = async (bookingId, status, email) => {
   try {
     const updateBooking = await updateBooking(bookingId, { status: status });
-    if (updateBooking)
-      sendMail(
-        email,
-        "Request accepted",
-        "Your ride request has been accepted, Enjoy your ride"
-      );
+    if (!updateBooking) throw new Error("Error updating request");
 
-    return { booking: updateBooking };
+    sendMail(
+      email,
+      "Request accepted",
+      "Your ride request has been accepted, Enjoy your ride"
+    );
+
+    return {
+      type: "Success",
+      statusCode: 200,
+      message: "Booking updated",
+      booking: updateBooking,
+    };
   } catch {
-    return { error: "Error accepting or rejecting your ride" };
+    return {
+      type: "Error",
+      statusCode: 500,
+      message: err.message,
+    };
+  }
+};
+
+exports.currentBooking = async (userRole, userId) => {
+  try {
+    const booking = await userCurrentBooking(userRole, userId);
+    if (!booking) throw new Error("Error fetching current booking");
+
+    return {
+      type: "Success",
+      statusCode: 200,
+      message: "bookings fetched successfully!!",
+      booking,
+    };
+  } catch (err) {
+    return {
+      type: "Error",
+      statusCode: 500,
+      message: err.message,
+    };
+  }
+};
+
+exports.bookings = async (userRole, userId) => {
+  try {
+    const bookings = await userBookingHistory(userRole, userId);
+    if (!bookings) throw new Error(res, 404, "Error fetching bookings");
+
+    return {
+      type: "Success",
+      statusCode: 200,
+      message: "Bookings fetched successfully",
+      bookings,
+    };
+  } catch (err) {
+    return {
+      type: "Error",
+      statusCode: 500,
+      message: err.message,
+    };
   }
 };

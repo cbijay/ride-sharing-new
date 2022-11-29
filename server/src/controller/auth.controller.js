@@ -1,10 +1,5 @@
-const { findUser } = require("../repository/auth.repository");
-const {
-  verifyGoogleToken,
-  createNewUser,
-  userToken,
-} = require("../services/auth.service");
-const { errorResponse, authResponse } = require("../utils/response");
+const { config } = require("../config");
+const { login, signup } = require("../services/auth.service");
 
 exports.userSignup = async (req, res) => {
   try {
@@ -12,49 +7,53 @@ exports.userSignup = async (req, res) => {
       body: { credential },
     } = req;
 
-    const { error: payloadError, payload } = await verifyGoogleToken(
-      credential
-    );
-    if (payloadError) errorResponse(res, 404, payloadError);
-    const profile = payload;
+    const { type, message, statusCode, accessToken } = await signup(credential);
 
-    const userExists = await findUser(profile?.email);
-    if (userExists) errorResponse(res, 403, "You have already signedup!!");
-
-    const { token, error: userError } = await createNewUser(profile);
-    if (userError) errorResponse(res, 403, userError);
-
-    authResponse(res, token, "Successfully signup!!", false);
+    return res
+      .status(statusCode)
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: config.app.nodeEnv === "production",
+        expires: "3d",
+      })
+      .json({
+        type,
+        message,
+        accessToken,
+      });
   } catch (error) {
-    errorResponse(res, 500, "Error signing up new user");
+    next(e);
   }
 };
 
-exports.userLogin = async (req, res) => {
+exports.userLogin = async (req, res, next) => {
   try {
     const {
       body: { credential },
     } = req;
 
-    const { error: payloadError, payload } = await verifyGoogleToken(
-      credential
-    );
+    const { type, message, statusCode, accessToken } = await login(credential);
 
-    if (payloadError) errorResponse(res, 404, error);
-
-    const profile = payload;
-    const userExists = await findUser(profile?.email);
-
-    if (!userExists)
-      errorResponse(res, 403, "You are not registered. Please sign up");
-    const accessToken = userToken(userExists);
-
-    authResponse(res, { accessToken }, "Succesfully logged in!!", false);
-  } catch (error) {
-    errorResponse(res, 500, error?.message || error);
+    return res
+      .status(statusCode)
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: config.app.nodeEnv === "production",
+        expires: "3d",
+      })
+      .json({
+        type,
+        message,
+        accessToken,
+      });
+  } catch (e) {
+    next(e);
   }
 };
 
 exports.userLogOut = (req, res) => {
-  return authResponse(res, {}, "Successfully logged out", true);
+  return res.clearCookie("accessToken").json({
+    success: true,
+    message: "Successfully logged out",
+  });
 };

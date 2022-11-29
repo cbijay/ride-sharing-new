@@ -1,16 +1,12 @@
-const { errorResponse, successResponse } = require("../utils/response");
+const { successResponse } = require("../utils/response");
 const {
-  bookingSelectedRides,
-  updateBookingRequest,
+  bookRides,
+  updateStatus,
+  verifyRequest,
 } = require("../services/booking.service");
-const {
-  validateRequest,
-  updateBooking,
-  userCurrentBooking,
-  userBookingHistory,
-} = require("../repository/booking.repository");
+const { currentBooking } = require("../repository/booking.repository");
 
-exports.bookRides = (req, res) => {
+exports.bookRides = (req, res, next) => {
   try {
     const {
       body,
@@ -18,18 +14,20 @@ exports.bookRides = (req, res) => {
       params: { riderId },
     } = req;
 
-    const { booking, error } = bookingSelectedRides(
+    const { type, message, statusCode, booking } = bookRides(
       body,
       userId,
       userName,
       riderId
     );
 
-    if (error) errorResponse(res, 403, error);
-
-    successResponse(res, { data: booking }, "Booking created successfully!!");
-  } catch (error) {
-    errorResponse(res, 500, "Error booking ride");
+    successResponse(res, statusCode, {
+      type,
+      message,
+      booking,
+    });
+  } catch (e) {
+    next(e);
   }
 };
 
@@ -37,15 +35,15 @@ exports.rideRequest = async (req, res) => {
   try {
     const { token } = req.query;
 
-    const booking = validateRequest(token);
-    if (!booking) errorResponse(res, 404, "Link has been expired");
+    const { type, message, statusCode, accessToken } = verifyRequest(token);
 
-    const { error } = await updateBooking(booking._id, { otp: null });
-    if (error) errorResponse(res, 403, error);
-
-    successResponse(res, { data: booking }, "Successfully verified!!");
-  } catch (error) {
-    errorResponse(res, 500, "Error fetching riders");
+    successResponse(res, statusCode, {
+      type,
+      message,
+      accessToken,
+    });
+  } catch (e) {
+    next(e);
   }
 };
 
@@ -56,17 +54,19 @@ exports.acceptOrRejectRequest = async (req, res) => {
       cookies: { userEmail },
     } = req;
 
-    const updateBooking = await updateBookingRequest(
+    const { type, message, statusCode, booking } = await updateStatus(
       bookingId,
       status,
       userEmail
     );
-    if (!updateBooking)
-      errorResponse(res, 403, "Error accepting or rejecting request");
 
-    successResponse(res, { data: updateBooking }, "Booking updated");
-  } catch (error) {
-    errorResponse(res, 500, "Error fetching riders");
+    successResponse(res, statusCode, {
+      type,
+      message,
+      booking,
+    });
+  } catch (e) {
+    next(e);
   }
 };
 
@@ -75,12 +75,19 @@ exports.currentBooking = async (req, res) => {
     const {
       cookies: { userRole, userId },
     } = req;
-    const booking = await userCurrentBooking(userRole, userId);
-    if (!booking) errorResponse(res, 404, "Error fetching booking");
 
-    successResponse(res, { data: booking }, "Fetched bookings successfully!!");
-  } catch (error) {
-    errorResponse(res, 500, "Error fetching riders");
+    const { type, message, statusCode, booking } = await currentBooking(
+      userRole,
+      userId
+    );
+
+    successResponse(res, statusCode, {
+      type,
+      message,
+      booking,
+    });
+  } catch (e) {
+    next(e);
   }
 };
 
@@ -89,11 +96,15 @@ exports.bookingHistory = async (req, res) => {
     const {
       cookies: { userRole, userId },
     } = req;
-    const bookings = await userBookingHistory(userRole, userId);
-    if (!bookings) errorResponse(res, 404, "Error fetching booking");
 
-    successResponse(res, { data: bookings }, "Fetched bookings successfully!!");
-  } catch (error) {
-    errorResponse(res, 500, "Error fetching riders");
+    const { type, message, statusCode, bookings } = bookings(userRole, userId);
+
+    successResponse(res, statusCode, {
+      type,
+      message,
+      bookings,
+    });
+  } catch (e) {
+    next(e);
   }
 };

@@ -1,6 +1,6 @@
-import { model, Schema } from "mongoose";
+const { Schema, model } = require("mongoose");
 
-export const userSchema = new Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -32,5 +32,4 @@ export const userSchema = new Schema({
 
 userSchema.index({ location: "2dsphere" });
 
-const User = model("users", userSchema);
-module.exports = User;
+exports.User = model("users", userSchema);

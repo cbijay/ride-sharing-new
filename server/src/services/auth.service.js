@@ -1,47 +1,56 @@
-// const config = require("../config");
-const { config } = require("../config");
-const { OAuth2Client } = require("google-auth-library");
+const { createUser, findUser } = require("../repository/auth.repository");
+const { verifyGoogleToken, userToken } = require("../utils/login/google");
 
-const { createUser } = require("../repository/auth.repository");
-const { sign } = require("jsonwebtoken");
-
-const GOOGLE_CLIENT_ID = config.google.client;
-const client = new OAuth2Client(GOOGLE_CLIENT_ID);
-
-exports.verifyGoogleToken = async (credential) => {
+exports.login = async (credential) => {
   try {
-    const ticket = await client.verifyIdToken({
-      idToken: credential,
-      audience: GOOGLE_CLIENT_ID,
-    });
-    return { payload: ticket.getPayload() };
-  } catch {
-    return { error: "Invalid user detected. Please try again" };
+    const payload = await verifyGoogleToken(credential);
+
+    const profile = payload;
+    const userExists = await findUser(profile?.email);
+
+    if (!userExists) throw new Error("User doesn't exist");
+    const accessToken = userToken(userExists);
+
+    return {
+      type: "Success",
+      statusCode: 200,
+      message: "Users login successfully",
+      accessToken,
+    };
+  } catch (err) {
+    return {
+      type: "Error",
+      statusCode: 500,
+      message: err.message,
+    };
   }
 };
 
-exports.createNewUser = async (profile) => {
+exports.signup = async (credential) => {
   try {
+    const { error: payloadError, payload } = await verifyGoogleToken(
+      credential
+    );
+    if (payloadError) errorResponse(res, 404, payloadError);
+    const profile = payload;
+
+    const userExists = await findUser(profile?.email);
+    if (userExists) throw new Error("You have already signedup!!");
+
     const user = await createUser(profile);
-    const token = userToken(user);
+    const accessToken = userToken(user);
 
-    return { token };
-  } catch {
-    return { error: "Error creating new user" };
+    return {
+      type: "Success",
+      statusCode: 200,
+      message: "Successfully Signup!!",
+      accessToken,
+    };
+  } catch (err) {
+    return {
+      type: "Error",
+      statusCode: 500,
+      message: err.message,
+    };
   }
-};
-
-exports.userToken = (user) => {
-  return sign(
-    {
-      name: user?.name,
-      email: user?.email,
-      role: user?.role,
-      profile_pic: user?.profile_pic,
-    },
-    config.jwt.secret,
-    {
-      expiresIn: "3d",
-    }
-  );
 };

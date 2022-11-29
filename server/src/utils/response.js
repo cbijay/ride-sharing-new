@@ -1,42 +1,12 @@
-const config = require("../config");
-
-const successResponse = (res, data, message) => {
-  return res.json({
-    success: true,
-    data,
-    message: message,
-  });
+const successResponse = (res, statusCode, data) => {
+  return res.status(statusCode).json(data);
 };
 
-const authResponse = (res, data, message, isClear) => {
-  if (!isClear)
-    return res
-      .cookie("accessToken", data?.accessToken, {
-        httpOnly: true,
-        secure: config.app.nodeEnv === "production",
-      })
-      .json({
-        success: true,
-        data,
-        message: message,
-      });
-
-  return res.clearCookie("accessToken").json({
-    success: true,
-    data,
-    message: message,
-  });
-};
-
-const errorResponse = (res, statusCode, message) => {
-  return res(statusCode).json({
-    success: false,
-    message: message,
-  });
+const errorResponse = (res, statusCode, data) => {
+  return res.status(statusCode).json(data);
 };
 
 module.exports = {
   successResponse,
-  authResponse,
   errorResponse,
 };

@@ -1,6 +1,6 @@
 const { Booking } = require("../models/booking.model");
 
-exports.selectRide = async (body, userId, riderId, otp) => {
+exports.bookRide = async (body, userId, riderId, otp) => {
   return await Booking.create({
     request_time: body.request_time,
     start_location: {

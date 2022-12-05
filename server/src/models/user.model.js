@@ -10,7 +10,7 @@ const userSchema = new Schema({
     unique: true,
     required: true,
   },
-  profile_pic: {
+  profilePic: {
     type: String,
     required: false,
   },
@@ -26,7 +26,7 @@ const userSchema = new Schema({
       default: "Point",
       required: false,
     },
-    coordinates: [Number],
+    coordinates: { type: [Number], required: false },
   },
 });
 

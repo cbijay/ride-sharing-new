@@ -1,5 +1,5 @@
 const { createUser, findUser } = require("../repository/auth.repository");
-const { verifyGoogleToken, userToken } = require("../utils/login/google");
+const { verifyGoogleToken, generateToken } = require("../utils/login/google");
 
 exports.login = async (credential) => {
   try {
@@ -9,7 +9,7 @@ exports.login = async (credential) => {
     const userExists = await findUser(profile?.email);
 
     if (!userExists) throw new Error("User doesn't exist");
-    const accessToken = userToken(userExists);
+    const accessToken = generateToken(userExists);
 
     return {
       type: "Success",
@@ -26,19 +26,16 @@ exports.login = async (credential) => {
   }
 };
 
-exports.signup = async (credential) => {
+exports.signup = async (credential, lat, long) => {
   try {
-    const { error: payloadError, payload } = await verifyGoogleToken(
-      credential
-    );
-    if (payloadError) errorResponse(res, 404, payloadError);
+    const payload = await verifyGoogleToken(credential);
     const profile = payload;
 
     const userExists = await findUser(profile?.email);
     if (userExists) throw new Error("You have already signedup!!");
 
-    const user = await createUser(profile);
-    const accessToken = userToken(user);
+    const user = await createUser(profile, lat, long);
+    const accessToken = generateToken(user);
 
     return {
       type: "Success",

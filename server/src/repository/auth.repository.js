@@ -4,10 +4,13 @@ exports.findUser = async (email) => {
   return await User.findOne({ email: email });
 };
 
-exports.createUser = async (profile) => {
+exports.createUser = async (profile, lat, long) => {
   return await User.create({
     name: profile?.name,
     email: profile?.email,
-    profile_pic: profile?.picture,
+    profilePic: profile?.picture,
+    location: {
+      coordinates: [lat, long],
+    },
   });
 };

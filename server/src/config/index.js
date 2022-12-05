@@ -12,7 +12,9 @@ exports.config = {
     dbPassword: process.env.DB_PASSWORD,
   },
   mail: {
+    service: process.env.MAIL_SERVICE,
     host: process.env.MAIL_HOST,
+    email: process.env.MAIL_EMAIL,
     user: process.env.MAIL_USER,
     password: process.env.MAIL_PASSWORD,
   },
@@ -24,5 +26,11 @@ exports.config = {
   },
   google: {
     client: process.env.GOOGLE_CLIENT_ID,
+  },
+  rider: {
+    maxDistance: process.env.MAX_DISTANCE,
+  },
+  bcrypt: {
+    salt: process.env.BCRYPT_SALT,
   },
 };

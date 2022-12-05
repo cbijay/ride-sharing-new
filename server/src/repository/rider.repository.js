@@ -1,32 +1,54 @@
-exports.getRidersByLocation = async (lat, long) => {
-  return await User.find({
-    location: {
-      $near: {
-        $geometry: {
+const { User } = require("../models/user.model");
+
+const getRidersByLocation = async (lat, long) => {
+  return await User.aggregate([
+    {
+      $geoNear: {
+        near: {
           type: "Point",
-          coordinates: coordinates,
+          coordinates: [Number(lat), Number(long)],
         },
-        $maxDistance: maxDistance,
+        query: { role: "rider" },
+        distanceField: "distance",
+        maxDistance: 150 * 1609.34,
+        spherical: true,
       },
     },
-  });
+    {
+      $lookup: {
+        from: "riders",
+        localField: "_id",
+        foreignField: "userId",
+        as: "riders",
+      },
+    },
+    {
+      $unwind: "$riders",
+    },
+    {
+      $replaceRoot: {
+        newRoot: {
+          _id: "$_id",
+          name: "$name",
+          profilePic: "$profilePic",
+          role: "$role",
+          vehicle: "$riders.vehicle",
+        },
+      },
+    },
+  ]);
 };
 
 exports.findSelectedRider = async (riderId) => {
   return await User.aggregate([
-    { $unwind: "$riders" },
-    {
-      $lookup: {
-        from: "riders",
-        localField: "user_id",
-        foreignField: "_id",
-        as: "rider",
-      },
-    },
     {
       $match: {
-        "rider._id": riderId,
+        _id: riderId,
       },
     },
-  ])[0];
+  ]).then((user) => user[0]);
+};
+
+module.exports = {
+  getRidersByLocation,
 };

@@ -13,13 +13,14 @@ exports.verifyGoogleToken = async (credential) => {
   return ticket.getPayload();
 };
 
-exports.userToken = (user) => {
+exports.generateToken = (user) => {
   return sign(
     {
+      userId: user?._id,
       name: user?.name,
       email: user?.email,
       role: user?.role,
-      profile_pic: user?.profile_pic,
+      profilePic: user?.profile_pic,
     },
     config.jwt.secret,
     {

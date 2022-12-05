@@ -1,26 +1,20 @@
 const { config } = require("../config");
 const { login, signup } = require("../services/auth.service");
+const { successResponse } = require("../utils/response");
 
 exports.userSignup = async (req, res) => {
   try {
     const {
-      body: { credential },
+      body: { credential, lat, long },
     } = req;
 
-    const { type, message, statusCode, accessToken } = await signup(credential);
+    const { type, message, statusCode, accessToken } = await signup(
+      credential,
+      lat,
+      long
+    );
 
-    return res
-      .status(statusCode)
-      .cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: config.app.nodeEnv === "production",
-        expires: "3d",
-      })
-      .json({
-        type,
-        message,
-        accessToken,
-      });
+    successResponse(res, statusCode, { type, message, accessToken });
   } catch (error) {
     next(e);
   }
@@ -34,18 +28,7 @@ exports.userLogin = async (req, res, next) => {
 
     const { type, message, statusCode, accessToken } = await login(credential);
 
-    return res
-      .status(statusCode)
-      .cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: config.app.nodeEnv === "production",
-        expires: "3d",
-      })
-      .json({
-        type,
-        message,
-        accessToken,
-      });
+    successResponse(res, statusCode, { type, message, accessToken });
   } catch (e) {
     next(e);
   }

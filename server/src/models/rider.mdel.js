@@ -1,7 +1,7 @@
-import { model, Schema } from "mongoose";
+const { Schema, model } = require("mongoose");
 
-export const riderSchema = new Schema({
-  user_id: {
+const riderSchema = new Schema({
+  userId: {
     type: Schema.Types.ObjectId,
     ref: "users",
     required: true,
@@ -22,5 +22,4 @@ export const riderSchema = new Schema({
   },
 });
 
-const Rider = model("riders", riderSchema);
-module.exports = Rider;
+exports.Rider = model("riders", riderSchema);

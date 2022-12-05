@@ -1,42 +1,48 @@
 const { Schema, model } = require("mongoose");
 
 const bookingSchema = new Schema({
-  request_time: {
+  requestTime: {
     type: Date,
     default: Date.now,
   },
-  start_location: {
+  startLocation: {
     coordinates: [Number],
     address: {
       type: String,
     },
   },
-  end_location: {
+  endLocation: {
     coordinates: [Number],
     address: {
       type: String,
     },
   },
-  user_id: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: "users",
   },
-  rider_id: {
+  riderId: {
     type: Schema.Types.ObjectId,
     ref: "riders",
   },
-  otp: {
-    type: Number,
+  token: {
+    type: String,
     expires: "15m",
     index: true,
   },
+  totalDistance: {
+    type: Number,
+    require: false,
+  },
+  estimatedTime: {
+    type: Number,
+    require: false,
+  },
   status: {
     type: String,
-    enum: ["accepted", "pending", "cancelled", "rejected"],
-    default: "pending",
+    enum: ["Accepted", "Rejected", "Cancelled", "Completed", "Pending"],
+    default: "Pending",
   },
 });
 
-const Booking = model("bookings", bookingSchema);
-
-module.exports = Booking;
+exports.Booking = model("bookings", bookingSchema);

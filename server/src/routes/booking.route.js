@@ -2,31 +2,19 @@ const express = require("express");
 const {
   bookRides,
   rideRequest,
-  acceptOrRejectRequest,
-  currentBooking,
+  updateBookingStatus,
   bookingHistory,
+  bookingDetail,
 } = require("../controller/booking.controller");
 const auth = require("../middleware/auth.middleware");
-const { bookingValidator } = require("../utils/validator/booking.validator");
 
 const routes = express.Router();
 
-routes.post("/:riderId/book", [auth, bookingValidator("bookRides")], bookRides);
-routes.get("/request", [auth, bookingValidator("rideRequest")], rideRequest);
-routes.put(
-  "/:bookingId/:status",
-  [auth, bookingValidator("acceptOrRejectRequest")],
-  acceptOrRejectRequest
-);
-routes.get(
-  "current",
-  [auth, bookingValidator("currentBooking")],
-  currentBooking
-);
-routes.get(
-  "history",
-  [auth, bookingValidator("bookingHistory")],
-  bookingHistory
-);
+routes.get("/history", auth, bookingHistory);
+
+routes.post("/:riderId/book", auth, bookRides);
+routes.get("/request", rideRequest);
+routes.get("/:bookingId", bookingDetail);
+routes.put("/:bookingId/:status", updateBookingStatus);
 
 exports.bookingRoutes = routes;

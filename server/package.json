@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon ./src/server.js",
-    "test": "mocha './src/*/*.test.js'"
+    "test": "mocha './src/**/*.spec.js'",
+    "seed": "node ./src/db/seeder/index.js"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",

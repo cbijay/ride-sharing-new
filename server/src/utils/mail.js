@@ -2,21 +2,19 @@ const { createTransport } = require("nodemailer");
 const { config } = require("../config");
 
 const transporter = createTransport({
-  port: 465,
-  host: config.mail.host,
+  service: config.mail.service,
   auth: {
     user: config.mail.user,
     pass: config.mail.password,
   },
-  secure: true,
 });
 
-exports.sendMail = (to, subject, body, html) => {
+exports.sendMail = (from, to, subject, text, html) => {
   const mailData = {
-    from: config.mail.user, // sender address
-    to: to, // list of receivers
+    from: from,
+    to: to,
     subject: subject,
-    body: body,
+    text: text,
     html: html,
   };
 

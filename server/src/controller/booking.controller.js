@@ -3,21 +3,23 @@ const {
   bookRides,
   updateStatus,
   verifyRequest,
+  userCurrentBooking,
+  history,
+  getBookingDetail,
 } = require("../services/booking.service");
-const { currentBooking } = require("../repository/booking.repository");
 
-exports.bookRides = (req, res, next) => {
+exports.bookRides = async (req, res, next) => {
   try {
     const {
       body,
-      cookies: { userId, userName },
+      user: { userId, name },
       params: { riderId },
     } = req;
 
-    const { type, message, statusCode, booking } = bookRides(
+    const { type, message, statusCode, booking } = await bookRides(
       body,
       userId,
-      userName,
+      name,
       riderId
     );
 
@@ -31,33 +33,54 @@ exports.bookRides = (req, res, next) => {
   }
 };
 
-exports.rideRequest = async (req, res) => {
+exports.rideRequest = async (req, res, next) => {
   try {
     const { token } = req.query;
 
-    const { type, message, statusCode, accessToken } = verifyRequest(token);
+    const { type, message, statusCode, booking } = await verifyRequest(token);
 
     successResponse(res, statusCode, {
       type,
       message,
-      accessToken,
+      booking,
     });
   } catch (e) {
     next(e);
   }
 };
 
-exports.acceptOrRejectRequest = async (req, res) => {
+exports.bookingDetail = async (req, res, next) => {
+  try {
+    const {
+      params: { bookingId },
+    } = req;
+
+    const { type, message, statusCode, booking } = await getBookingDetail(
+      bookingId
+    );
+
+    successResponse(res, statusCode, {
+      type,
+      message,
+      booking,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.updateBookingStatus = async (req, res, next) => {
   try {
     const {
       params: { bookingId, status },
-      cookies: { userEmail },
+      body: { userId, role },
     } = req;
 
     const { type, message, statusCode, booking } = await updateStatus(
       bookingId,
-      status,
-      userEmail
+      Number(status),
+      userId,
+      role
     );
 
     successResponse(res, statusCode, {
@@ -70,34 +93,13 @@ exports.acceptOrRejectRequest = async (req, res) => {
   }
 };
 
-exports.currentBooking = async (req, res) => {
+exports.bookingHistory = async (req, res, next) => {
   try {
     const {
-      cookies: { userRole, userId },
+      user: { role, userId },
     } = req;
 
-    const { type, message, statusCode, booking } = await currentBooking(
-      userRole,
-      userId
-    );
-
-    successResponse(res, statusCode, {
-      type,
-      message,
-      booking,
-    });
-  } catch (e) {
-    next(e);
-  }
-};
-
-exports.bookingHistory = async (req, res) => {
-  try {
-    const {
-      cookies: { userRole, userId },
-    } = req;
-
-    const { type, message, statusCode, bookings } = bookings(userRole, userId);
+    const { type, message, statusCode, bookings } = await history(role, userId);
 
     successResponse(res, statusCode, {
       type,

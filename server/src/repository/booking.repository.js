@@ -1,63 +1,141 @@
+const { Types } = require("mongoose");
 const { Booking } = require("../models/booking.model");
+const { User } = require("../models/user.model");
 
-exports.bookRide = async (body, userId, riderId, otp) => {
+exports.bookRide = async (body, userId, riderId) => {
+  const {
+    requestTime,
+    pickupCoordinates,
+    pickupAddress,
+    destinationAddress,
+    destinationCoordinates,
+    totalDistance,
+    estimatedTime,
+  } = body;
+
   return await Booking.create({
-    request_time: body.request_time,
-    start_location: {
-      coordinates: body.pickup_coordinates,
-      address: body.pickup_address,
+    requestTime: requestTime,
+    startLocation: {
+      coordinates: pickupCoordinates,
+      address: pickupAddress,
     },
-    end_location: {
-      coordinates: body.destination_coordinates,
-      address: body.destination_address,
+    endLocation: {
+      coordinates: destinationCoordinates,
+      address: destinationAddress,
     },
-    user_id: userId,
-    rider_id: riderId,
+    totalDistance,
+    estimatedTime,
+    userId: userId,
+    riderId: riderId,
   });
 };
 
-exports.validateRequest = async (otp) => {
-  return await Booking.findOne({ otp: otp });
-};
+exports.findBooking = async (userId, role) => {
+  let matchQuery;
 
-exports.updateBooking = async (bookingId, query) => {
-  return await Booking.update({ _id: bookingId }, { $set: query });
-};
+  if (role !== "user") {
+    matchQuery = {
+      $match: {
+        riderId: Types.ObjectId(userId),
+      },
+    };
+  } else {
+    matchQuery = {
+      $match: {
+        userId: Types.ObjectId(userId),
+      },
+    };
+  }
 
-exports.userCurrentBooking = async (userRole, userId) => {
   return await Booking.aggregate([
-    { $unwind: "$users" },
+    matchQuery,
     {
       $lookup: {
         from: "users",
-        localId: userRole === "user" ? "user_id" : "rider_id",
-        foreignId: "_id",
-        as: userRole === "user" ? "user" : "rider",
+        localField: "userId",
+        foreignField: "_id",
+        as: "user",
       },
     },
     {
-      $match: {
-        "users._id": userId,
+      $project: {
+        _id: 1,
+        requestTime: 1,
+        startLocation: 1,
+        endLocation: 1,
+        totalDistance: 1,
+        estimatedTime: 1,
+        status: 1,
+        token: 1,
+        user: {
+          $arrayElemAt: ["$user", 0],
+        },
       },
     },
-  ])[0];
+    {
+      $sort: {
+        requestTime: -1,
+      },
+    },
+  ]).then((booking) => booking[0]);
+};
+
+exports.updateBooking = async (bookingId, query) => {
+  return await Booking.updateOne({ _id: bookingId }, { $set: query });
 };
 
 exports.userBookingHistory = async (userRole, userId) => {
   return await Booking.aggregate([
-    { $unwind: "$users" },
     {
       $lookup: {
         from: "users",
-        localId: userRole === "user" ? "user_id" : "rider_id",
-        foreignId: "_id",
-        as: userRole === "user" ? "user" : "rider",
+        localField: userRole === "rider" ? "riderId" : "userId",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        requestTime: 1,
+        startLocation: 1,
+        endLocation: 1,
+        totalDistance: 1,
+        estimatedTime: 1,
+        status: 1,
+        user: {
+          $arrayElemAt: ["$user", 0],
+        },
       },
     },
     {
       $match: {
-        "users._id": userId,
+        "user._id": Types.ObjectId(userId),
+      },
+    },
+    {
+      $sort: {
+        requestTime: -1,
+      },
+    },
+    {
+      $project: {
+        user: 0,
       },
     },
   ]);
+};
+
+exports.findUser = async (userId) => {
+  return await User.findOne({ _id: Types.ObjectId(userId) });
+};
+
+exports.bookingById = async (bookingId) => {
+  return await Booking.aggregate([
+    {
+      $match: {
+        _id: Types.ObjectId(bookingId),
+      },
+    },
+  ]).then((booking) => booking[0]);
 };

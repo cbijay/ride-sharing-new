@@ -1,3 +1,4 @@
+import EmptyCard from "core/components/card/EmptyCard";
 import BookingCard from "features/booking/components/card/BookingCard";
 import useBookingHistory from "features/booking/hooks/components/booking/useBookingHistory";
 import { IBooking } from "features/booking/types/IBooking";
@@ -24,7 +25,7 @@ const BookingHistory: FC<TBookingHistory> = ({ isViewLink, perPage }) => {
           </Link>
         )}
       </div>
-      {bookings &&
+      {bookings.length > 0 ? (
         bookings.map(
           (
             { _id, requestTime, startLocation, endLocation }: IBooking,
@@ -39,7 +40,10 @@ const BookingHistory: FC<TBookingHistory> = ({ isViewLink, perPage }) => {
               />
             </Link>
           )
-        )}
+        )
+      ) : (
+        <EmptyCard message="No riders found" />
+      )}
     </>
   );
 };

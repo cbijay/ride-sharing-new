@@ -13,6 +13,7 @@ import { getRiders } from "core/store/rider/reducer/rider.reducer";
 import { setActiveStep } from "core/store/step/reducer/step.reducer";
 import { addNotification } from "core/store/toast/reducer/toast.reducer";
 import { useFindRiders } from "features/booking/hooks/api/useFindRider";
+import { IPlace } from "features/booking/types/IPlace";
 
 import { MutableRefObject, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,14 +39,14 @@ const useBookingForm = () => {
     data && dispatch(getRiders(data?.riders));
   }, [data]);
 
-  const handlePickup = (place: any) => {
+  const handlePickup = (place: IPlace) => {
     pickupRef.current.value = place?.label;
     dispatch(storePickup(place));
     dispatch(setLoading(false));
     dispatch(validatePickup(""));
   };
 
-  const handleDestination = (place: any) => {
+  const handleDestination = (place: IPlace) => {
     destinationRef.current.value = place?.label;
     dispatch(storeDestination(place));
     dispatch(setLoading(false));

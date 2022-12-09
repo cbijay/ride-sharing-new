@@ -21,15 +21,26 @@ export type TRideMap = {
 };
 
 const RideMap: FC<TRideMap> = ({ style }) => {
-  const { isLoading, startLocation, endLocation, dispatch } = useRideMap();
+  const {
+    latitude,
+    longitude,
+    isLoading,
+    startLocation,
+    endLocation,
+    dispatch,
+  } = useRideMap();
 
   if (isLoading) return <LoadingSpinner />;
 
   return (
     <MapContainer
       center={L.latLng(
-        startLocation.coordinates[0],
-        startLocation.coordinates[1]
+        startLocation.coordinates.includes(0) === false
+          ? startLocation.coordinates[0]
+          : latitude,
+        startLocation.coordinates.includes(0) === false
+          ? startLocation.coordinates[1]
+          : longitude
       )}
       zoom={18}
       className="w-full"
@@ -42,10 +53,8 @@ const RideMap: FC<TRideMap> = ({ style }) => {
         subdomains={["mt0", "mt1", "mt2", "mt3"]}
       />
 
-      {startLocation.coordinates[0] !== 0 &&
-      startLocation.coordinates[1] !== 0 &&
-      endLocation.coordinates[0] !== 0 &&
-      endLocation.coordinates[1] !== 0 ? (
+      {startLocation.coordinates.includes(0) === false &&
+      endLocation.coordinates.includes(0) === false ? (
         <MapRoute
           pickupCoordinates={startLocation.coordinates}
           destinationCoordinates={endLocation.coordinates}
@@ -56,13 +65,7 @@ const RideMap: FC<TRideMap> = ({ style }) => {
           }
         />
       ) : (
-        <Marker
-          position={L.latLng(
-            startLocation.coordinates[0],
-            startLocation.coordinates[1]
-          )}
-          icon={markerIcon}
-        />
+        <Marker position={L.latLng(latitude, longitude)} icon={markerIcon} />
       )}
     </MapContainer>
   );

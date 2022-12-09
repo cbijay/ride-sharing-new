@@ -66,10 +66,6 @@ exports.findBooking = async (userId, role) => {
         totalDistance: 1,
         estimatedTime: 1,
         status: 1,
-        token: 1,
-        user: {
-          $arrayElemAt: ["$user", 0],
-        },
       },
     },
     {
@@ -77,14 +73,14 @@ exports.findBooking = async (userId, role) => {
         requestTime: -1,
       },
     },
-  ]).then((booking) => booking[0]);
+  ]);
 };
 
 exports.updateBooking = async (bookingId, query) => {
   return await Booking.updateOne({ _id: bookingId }, { $set: query });
 };
 
-exports.userBookingHistory = async (userRole, userId) => {
+exports.userBookingHistory = async (skip, limit, userRole, userId) => {
   return await Booking.aggregate([
     {
       $lookup: {
@@ -119,6 +115,12 @@ exports.userBookingHistory = async (userRole, userId) => {
       },
     },
     {
+      $limit: limit,
+    },
+    {
+      $skip: skip,
+    },
+    {
       $project: {
         user: 0,
       },
@@ -137,5 +139,5 @@ exports.bookingById = async (bookingId) => {
         _id: Types.ObjectId(bookingId),
       },
     },
-  ]).then((booking) => booking[0]);
+  ]);
 };

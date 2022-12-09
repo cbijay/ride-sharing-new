@@ -1,13 +1,11 @@
-const { getRidersByLocation } = require("../repository/rider.repository");
+const riderRepo = require("../repository/rider.repository");
 
-const getRiders = async (lat, long) => {
+exports.getRiders = async (lat, long) => {
   try {
     if (!lat || !long)
       throw new Error("Please provide pickup latitude and longitude");
 
-    const riders = await getRidersByLocation(lat, long);
-    if (!riders) throw new Error("Error fetching riders");
-    console.log("service riders", riders);
+    const riders = await riderRepo.getRidersByLocation(lat, long);
 
     return {
       type: "Success",
@@ -23,5 +21,3 @@ const getRiders = async (lat, long) => {
     };
   }
 };
-
-module.exports = { getRiders };

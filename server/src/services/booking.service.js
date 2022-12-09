@@ -1,36 +1,34 @@
-const { findSelectedRider } = require("../repository/rider.repository");
-const {
-  bookRide,
-  findBooking,
-  currentUserBooking,
-  userBookingHistory,
-  findUser,
-  updateBooking,
-  bookingById,
-} = require("../repository/booking.repository");
+const riderRepo = require("../repository/rider.repository");
+const bookingRepo = require("../repository/booking.repository");
+const mail = require("../utils/mail");
 
-const { sendMail } = require("../utils/mail");
 const { config } = require("../config");
 const { sign, verify } = require("jsonwebtoken");
 
-exports.bookRides = async (body, userId, userName, riderId) => {
+exports.createBooking = async (body, userId, userName, riderId) => {
   try {
-    const rider = await findSelectedRider(riderId);
-    if (!rider) throw new Error("Error selecting rider");
+    const rider = await riderRepo.findSelectedRider(riderId);
+    if (!riderId) throw new Error("Rider id is required");
+
+    if (!body.startLocation) throw new Error("Pickup is required");
+    if (!body.endLocation) throw new Error("Destination is required");
 
     const token = sign(
       {
-        riderId: rider?._id,
-        email: rider?.email,
+        userId: rider[0]?._id,
+        name: rider[0]?.name,
+        role: rider[0]?.role,
+        email: rider[0]?.email,
       },
       config.jwt.secret,
       {
         expiresIn: "15m",
       }
     );
-    const booking = await bookRide(body, userId, riderId);
 
-    sendMail(
+    const booking = await bookingRepo.bookRide(body, userId, riderId);
+
+    mail.sendMail(
       config.mail.email,
       rider.email,
       `New Ride request from ${userName}`,
@@ -60,16 +58,19 @@ exports.bookRides = async (body, userId, userName, riderId) => {
 
 exports.verifyRequest = async (token) => {
   try {
+    if (!token) throw new Error("Invalid link");
     const verifyToken = await verify(token, config.jwt.secret);
 
-    const booking = await findBooking(verifyToken?.riderId, "rider");
-    if (!booking) throw new Error("Booking doesn't exist");
+    const booking = await bookingRepo.findBooking(
+      verifyToken?.riderId,
+      "rider"
+    );
 
     return {
       type: "Success",
       statusCode: 200,
       message: "Successfully verified!!",
-      booking: booking,
+      booking: booking[0],
     };
   } catch (err) {
     return {
@@ -82,10 +83,10 @@ exports.verifyRequest = async (token) => {
 
 exports.updateStatus = async (bookingId, status, userId, userRole) => {
   try {
-    if (!userId && !role) throw new Error("User id and role is required");
+    if (!bookingId) throw new Error("Booking id is required");
+    if (!status) throw new Error("Status is required");
 
-    const user = await findUser(userId);
-    if (!user) throw new Error("Error selecting user");
+    const user = await bookingRepo.findUser(userId);
 
     const bookingStatus = () => {
       switch (status) {
@@ -102,15 +103,13 @@ exports.updateStatus = async (bookingId, status, userId, userRole) => {
       }
     };
 
-    const updateBookingStatus = await updateBooking(bookingId, {
+    await bookingRepo.updateBooking(bookingId, {
       status: bookingStatus(),
     });
-    if (!updateBookingStatus) throw new Error("Error updating status");
 
-    const booking = await findBooking(userId, userRole);
-    if (!booking) throw new Error("Error fetching booking");
+    const booking = await bookingRepo.findBooking(userId, userRole);
 
-    sendMail(
+    mail.sendMail(
       config.mail.email,
       user.email,
       "Request accepted",
@@ -121,7 +120,7 @@ exports.updateStatus = async (bookingId, status, userId, userRole) => {
       type: "Success",
       statusCode: 200,
       message: "Booking updated",
-      booking: booking,
+      booking: booking[0],
     };
   } catch (err) {
     return {
@@ -132,16 +131,24 @@ exports.updateStatus = async (bookingId, status, userId, userRole) => {
   }
 };
 
-exports.history = async (userRole, userId) => {
+exports.history = async (page, perPage, userRole, userId) => {
   try {
-    const bookings = await userBookingHistory(userRole, userId);
-    if (!bookings) throw new Error(res, 404, "Error fetching bookings");
+    if (!page || !perPage)
+      throw new Error("Page and perPage query is required");
+
+    const skip = Number(page) > 1 ? Number(page) - 1 : 0;
+    const bookings = await bookingRepo.userBookingHistory(
+      Number(skip),
+      Number(perPage),
+      userRole,
+      userId
+    );
 
     return {
       type: "Success",
       statusCode: 200,
       message: "Bookings fetched successfully",
-      bookings,
+      bookings: bookings,
     };
   } catch (err) {
     return {
@@ -154,13 +161,14 @@ exports.history = async (userRole, userId) => {
 
 exports.getBookingDetail = async (bookingId) => {
   try {
-    const booking = await bookingById(bookingId);
+    if (!bookingId) throw new Error("Booking id is required");
+    const booking = await bookingRepo.bookingById(bookingId);
 
     return {
       type: "Success",
       statusCode: 200,
       message: "Booking fetched successfully",
-      booking,
+      booking: booking[0],
     };
   } catch (err) {
     return {

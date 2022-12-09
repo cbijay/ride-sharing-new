@@ -1,14 +1,7 @@
-const { successResponse } = require("../utils/response");
-const {
-  bookRides,
-  updateStatus,
-  verifyRequest,
-  userCurrentBooking,
-  history,
-  getBookingDetail,
-} = require("../services/booking.service");
+const response = require("../utils/response");
+const bookingService = require("../services/booking.service");
 
-exports.bookRides = async (req, res, next) => {
+exports.bookRide = async (req, res, next) => {
   try {
     const {
       body,
@@ -16,14 +9,10 @@ exports.bookRides = async (req, res, next) => {
       params: { riderId },
     } = req;
 
-    const { type, message, statusCode, booking } = await bookRides(
-      body,
-      userId,
-      name,
-      riderId
-    );
+    const { type, message, statusCode, booking } =
+      await bookingService.createBooking(body, userId, name, riderId);
 
-    successResponse(res, statusCode, {
+    return response.successResponse(res, statusCode, {
       type,
       message,
       booking,
@@ -37,9 +26,10 @@ exports.rideRequest = async (req, res, next) => {
   try {
     const { token } = req.query;
 
-    const { type, message, statusCode, booking } = await verifyRequest(token);
+    const { type, message, statusCode, booking } =
+      await bookingService.verifyRequest(token);
 
-    successResponse(res, statusCode, {
+    return response.successResponse(res, statusCode, {
       type,
       message,
       booking,
@@ -55,11 +45,10 @@ exports.bookingDetail = async (req, res, next) => {
       params: { bookingId },
     } = req;
 
-    const { type, message, statusCode, booking } = await getBookingDetail(
-      bookingId
-    );
+    const { type, message, statusCode, booking } =
+      await bookingService.getBookingDetail(bookingId);
 
-    successResponse(res, statusCode, {
+    return response.successResponse(res, statusCode, {
       type,
       message,
       booking,
@@ -73,17 +62,19 @@ exports.updateBookingStatus = async (req, res, next) => {
   try {
     const {
       params: { bookingId, status },
-      body: { userId, role },
+      user: { userId, role },
+      // body: { userId, role },
     } = req;
 
-    const { type, message, statusCode, booking } = await updateStatus(
-      bookingId,
-      Number(status),
-      userId,
-      role
-    );
+    const { type, message, statusCode, booking } =
+      await bookingService.updateStatus(
+        bookingId,
+        Number(status),
+        userId,
+        role
+      );
 
-    successResponse(res, statusCode, {
+    return response.successResponse(res, statusCode, {
       type,
       message,
       booking,
@@ -97,11 +88,13 @@ exports.bookingHistory = async (req, res, next) => {
   try {
     const {
       user: { role, userId },
+      query: { page, perPage },
     } = req;
 
-    const { type, message, statusCode, bookings } = await history(role, userId);
+    const { type, message, statusCode, bookings } =
+      await bookingService.history(page, perPage, role, userId);
 
-    successResponse(res, statusCode, {
+    return response.successResponse(res, statusCode, {
       type,
       message,
       bookings,

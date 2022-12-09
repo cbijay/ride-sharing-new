@@ -1,6 +1,6 @@
 const { User } = require("../models/user.model");
 
-const getRidersByLocation = async (lat, long) => {
+exports.getRidersByLocation = async (lat, long) => {
   return await User.aggregate([
     {
       $geoNear: {
@@ -46,9 +46,5 @@ exports.findSelectedRider = async (riderId) => {
         _id: riderId,
       },
     },
-  ]).then((user) => user[0]);
-};
-
-module.exports = {
-  getRidersByLocation,
+  ]);
 };

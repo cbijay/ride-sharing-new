@@ -42,5 +42,5 @@ exports.userBookingStat = async (role, userId, status) => {
         count: 1,
       },
     },
-  ]).then((count) => count[0]);
+  ]);
 };

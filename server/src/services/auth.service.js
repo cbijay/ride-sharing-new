@@ -1,20 +1,21 @@
-const { createUser, findUser } = require("../repository/auth.repository");
-const { verifyGoogleToken, generateToken } = require("../utils/login/google");
+const authRepo = require("../repository/auth.repository");
+const google = require("../utils/google");
 
 exports.login = async (credential) => {
   try {
-    const payload = await verifyGoogleToken(credential);
-
+    if (!credential) throw new Error("Invalid Credential");
+    const payload = await google.verifyGoogleToken(credential);
     const profile = payload;
-    const userExists = await findUser(profile?.email);
 
+    const userExists = await authRepo.findUser(profile?.email);
     if (!userExists) throw new Error("User doesn't exist");
-    const accessToken = generateToken(userExists);
+
+    const accessToken = await google.generateToken(userExists);
 
     return {
       type: "Success",
       statusCode: 200,
-      message: "Users login successfully",
+      message: "Successfully loggedin!!",
       accessToken,
     };
   } catch (err) {
@@ -28,14 +29,15 @@ exports.login = async (credential) => {
 
 exports.signup = async (credential, lat, long) => {
   try {
-    const payload = await verifyGoogleToken(credential);
+    if (!credential) throw new Error("Invalid Credential");
+    const payload = await google.verifyGoogleToken(credential);
     const profile = payload;
 
-    const userExists = await findUser(profile?.email);
+    const userExists = await authRepo.findUser(profile?.email);
     if (userExists) throw new Error("You have already signedup!!");
 
-    const user = await createUser(profile, lat, long);
-    const accessToken = generateToken(user);
+    const user = await authRepo.createUser(profile, lat, long);
+    const accessToken = await google.generateToken(user);
 
     return {
       type: "Success",

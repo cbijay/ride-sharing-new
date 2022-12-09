@@ -1,8 +1,8 @@
 const { expect } = require("chai");
-const Sinon = require("sinon");
+const sinon = require("sinon");
 const { User } = require("../../models/user.model");
 
-const { getRidersByLocation } = require("../../repository/rider.repository");
+const riderRepo = require("../../repository/rider.repository");
 const { faker } = require("@faker-js/faker");
 
 describe("Rider Repository", () => {
@@ -25,9 +25,9 @@ describe("Rider Repository", () => {
 
   describe("getRidersByLocation", () => {
     it("should get riders based on user nearest location", async () => {
-      const stub = Sinon.stub(User, "aggregate").returns(stubValue);
+      const stub = sinon.stub(User, "aggregate").returns(stubValue);
 
-      const riders = await getRidersByLocation(27, 85);
+      const riders = await riderRepo.getRidersByLocation(27, 85);
       expect(stub.calledOnce).to.be.true;
       expect(riders).not.null;
       expect(riders[0]).to.have.property("_id");

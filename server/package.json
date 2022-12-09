@@ -7,6 +7,7 @@
   "scripts": {
     "start": "nodemon ./src/server.js",
     "test": "mocha './src/**/*.spec.js'",
+    "test:watch": "nodemon --exec 'yarn test'",
     "seed": "node ./src/db/seeder/index.js"
   },
   "dependencies": {
@@ -28,6 +29,6 @@
     "chai-http": "^4.3.0",
     "mocha": "^10.1.0",
     "nodemon": "^2.0.20",
-    "sinon": "^14.0.2"
+    "sinon": "^15.0.0"
   }
 }

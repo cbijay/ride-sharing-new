@@ -1,12 +1,7 @@
-const successResponse = (res, statusCode, data) => {
+exports.successResponse = (res, statusCode, data) => {
   return res.status(statusCode).json(data);
 };
 
-const errorResponse = (res, statusCode, data) => {
+exports.errorResponse = (res, statusCode, data) => {
   return res.status(statusCode).json(data);
-};
-
-module.exports = {
-  successResponse,
-  errorResponse,
 };

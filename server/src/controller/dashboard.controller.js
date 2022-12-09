@@ -1,5 +1,5 @@
-const { dashboardStats } = require("../services/dashboard.service");
-const { successResponse } = require("../utils/response");
+const dashboardService = require("../services/dashboard.service");
+const response = require("../utils/response");
 
 exports.userDashboard = async (req, res, next) => {
   try {
@@ -14,9 +14,9 @@ exports.userDashboard = async (req, res, next) => {
       pendingCount,
       completedCount,
       cancelledCount,
-    } = await dashboardStats(role, userId);
+    } = await dashboardService.dashboardStats(role, userId);
 
-    successResponse(res, statusCode, {
+    return response.successResponse(res, statusCode, {
       type,
       message,
       completedCount,

@@ -2,12 +2,12 @@ const { faker } = require("@faker-js/faker");
 const { expect } = require("chai");
 const sinon = require("sinon");
 
-const riderController = require("../../controller/rider.controller");
-const riderService = require("../../services/rider.service");
+const dashboardController = require("../../controller/dashboard.controller");
+const dashboardService = require("../../services/dashboard.service");
 const response = require("../../utils/response");
 
-describe("Rider controller", () => {
-  describe("searchRider", () => {
+describe("Dashboard controller", () => {
+  describe("userDashboard", () => {
     let res, json, status;
 
     beforeEach(() => {
@@ -20,35 +20,23 @@ describe("Rider controller", () => {
       status.returns(res);
     });
 
-    it("should search riders that matches provided lat and long", async function () {
+    it("should return dashboard stats", async function () {
       const req = {
-        query: { lat: faker.address.latitude, long: faker.address.longitude },
+        user: { role: "user", userId: faker.database.mongodbObjectId() },
       };
-
-      const riderStubValue = [
-        {
-          _id: faker.database.mongodbObjectId(),
-          name: faker.name.fullName(),
-          profilePic: faker.image.avatar(),
-          role: "rider",
-          vehicle: {
-            color: faker.vehicle.color(),
-            model: faker.vehicle.vehicle(),
-            number: faker.vehicle.vrm(),
-          },
-        },
-      ];
 
       const stubValue = {
         type: "Success",
         statusCode: 200,
-        message: "Riders found!!",
-        riders: riderStubValue,
+        message: "Stats fetched successfully!!",
+        pendingCount: 1,
+        completedCount: 0,
+        cancelledCount: 0,
       };
 
-      const mockedService = sinon.mock(riderService);
+      const mockedService = sinon.mock(dashboardService);
       mockedService
-        .expects("getRiders")
+        .expects("dashboardStats")
         .once()
         .callsFake(() => Promise.resolve(stubValue));
 
@@ -58,15 +46,17 @@ describe("Rider controller", () => {
         .once()
         .callsFake(() => Promise.resolve(stubValue));
 
-      const data = await riderController.searchRider(req, res);
+      const data = await dashboardController.userDashboard(req, res);
 
       expect(data).to.not.null;
       expect(data).to.have.property("type");
       expect(data).to.have.property("statusCode");
 
       expect(data).to.have.property("message");
-      expect(data).to.have.property("riders");
+      expect(data).to.have.property("pendingCount");
+      expect(data).to.have.property("completedCount");
 
+      expect(data).to.have.property("cancelledCount");
       expect(data.type).to.equal("Success");
       expect(data.statusCode).to.equal(200);
 

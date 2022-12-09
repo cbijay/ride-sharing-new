@@ -1,4 +1,4 @@
-# About this project
+# Ride Sharing App
 
 It is a ride sharing app built using react as a frontend and express as a backend. It is also part of assignment to gain knowledge on mern stack
 

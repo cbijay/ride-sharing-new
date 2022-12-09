@@ -34,7 +34,7 @@ Install dependencies:
 npm install
 ```
 
-Start server:
+Start client:
 
 ```console
 npm start

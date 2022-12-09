@@ -6,8 +6,8 @@ import useUpdateStatus from "features/booking/hooks/components/rider/useUpdateSt
 import useBookingDetail from "features/booking/hooks/pages/useBookingDetail";
 
 const BookingDetail = () => {
-  const { userId, role, id, status, isDisabled } = useBookingDetail();
-  const { handleStatus } = useUpdateStatus(id, userId, role);
+  const { id, status, isDisabled } = useBookingDetail();
+  const { handleStatus } = useUpdateStatus({ bookingId: id });
 
   return (
     <AppLayout>

@@ -9,12 +9,16 @@ import {
 import { IPlace } from "features/booking/types/IPlace";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { useGetBookingById } from "../api/useFetchBookingDetail";
 
 const useBookingDetail = () => {
   const { userId, role } = useSelector((state: RootState) => state.user);
   const { id } = useParams();
+
+  const { search } = useLocation();
+  const token = new URLSearchParams(search).get("token");
+
   const { data, error: requestError } = useGetBookingById(id);
 
   const {
@@ -66,7 +70,7 @@ const useBookingDetail = () => {
     requestError && dispatch(setError(requestError));
   }, [data, requestError]);
 
-  return { userId, role, id, status, isDisabled };
+  return { userId, role, id, token, status, isDisabled };
 };
 
 export default useBookingDetail;

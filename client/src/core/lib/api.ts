@@ -30,7 +30,6 @@ api.interceptors.response.use(
       removeUser();
     } else if (error.response && error.response.data) {
       if (error.response.data) {
-        // const data = error.response.data;
         return Promise.reject(error.response.data);
       } else return Promise.reject(error.response.data);
     } else {

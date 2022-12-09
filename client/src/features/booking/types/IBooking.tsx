@@ -27,6 +27,7 @@ export interface IBookingHistory extends IResponse {
 export interface IBookingStatus {
   id?: string;
   status: number;
-  role?: string;
-  userId?: string;
+  token?: string;
+  // role?: string;
+  // userId?: string;
 }

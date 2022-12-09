@@ -13,11 +13,13 @@ import {
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-const useUpdateStatus = (
-  bookingId: string | undefined,
-  userId?: string,
-  userRole?: string
-) => {
+const useUpdateStatus = ({
+  token,
+  bookingId,
+}: {
+  token?: string | null;
+  bookingId?: string | undefined;
+}) => {
   const {
     mutate,
     data: updatedBooking,
@@ -27,12 +29,11 @@ const useUpdateStatus = (
   const dispatch = useDispatch();
 
   const handleStatus = (value: number) => {
-    if (bookingId && userId && userRole) {
+    if (token && bookingId) {
       const formValues = {
         id: bookingId,
+        token: token,
         status: value,
-        role: userRole,
-        userId: userId,
       };
 
       dispatch(setDisabled(true));

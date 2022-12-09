@@ -5,4 +5,5 @@ export type TButton = {
   children: ReactNode;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: HTMLButtonElement["disabled"];
+  type?: "submit" | "button" | "reset";
 };

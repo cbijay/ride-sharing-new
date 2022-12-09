@@ -15,26 +15,26 @@ const useGeoLocation = () => {
 
   const getUserLocation = () => {
     const geolocationAPI = navigator.geolocation;
-
     if (!geolocationAPI)
       dispatch(
         locationError("Geolocation API is not available in your browser!")
       );
 
-    geolocationAPI.getCurrentPosition(
-      (position) => {
-        const { coords } = position;
+    if (geolocationAPI)
+      geolocationAPI.getCurrentPosition(
+        (position) => {
+          const { coords } = position;
 
-        dispatch(storeCurrentLocation(coords));
-      },
-      (error) => {
-        dispatch(locationError(error?.message));
-      }
-    );
+          dispatch(storeCurrentLocation(coords));
+        },
+        (error) => {
+          dispatch(locationError(error?.message));
+        }
+      );
   };
 
   useEffect(() => {
-    getUserLocation();
+    if (!latitude || !longitude) getUserLocation();
 
     return () => getUserLocation();
   }, []);

@@ -33,14 +33,15 @@ export const bookRider = async (data: IUserBookingRequest) => {
 };
 
 export const updateBookingStatus = async (data: IBookingStatus) => {
-  const { id, status, role, userId } = data;
+  const { id, status, token } = data;
+
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
 
   const response: IBookingResponse = await api.put(
     `${process.env.REACT_APP_BASE_URL!}/booking/${id}/${status}`,
-    {
-      role,
-      userId,
-    }
+    config
   );
 
   return response;
@@ -54,9 +55,10 @@ export const currentBooking = async () => {
   return response;
 };
 
-export const bookingHistory = async () => {
+export const bookingHistory = async (page: number, perPage: number) => {
   const response: IBookingHistory = await api.get(
-    `${process.env.REACT_APP_BASE_URL!}/booking/history`
+    `${process.env
+      .REACT_APP_BASE_URL!}/booking/history?page=${page}&perPage=${perPage}`
   );
 
   return response;

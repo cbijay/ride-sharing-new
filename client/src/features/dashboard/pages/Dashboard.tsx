@@ -19,7 +19,7 @@ const Dashboard = () => {
         />
 
         <DashboardCard
-          className="bg-primary  w-full px-6"
+          className="bg-primary w-full px-6"
           count={pendingCount}
           status="Pending"
         />
@@ -30,7 +30,7 @@ const Dashboard = () => {
           status="Cancelled"
         />
       </div>
-      <BookingHistory isViewLink={true} />
+      <BookingHistory isViewLink={true} perPage={5} />
     </AppLayout>
   );
 };

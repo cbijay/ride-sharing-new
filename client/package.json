@@ -27,6 +27,7 @@
     "leaflet-geosearch": "^3.7.0",
     "leaflet-routing-machine": "^3.2.12",
     "moment": "^2.29.4",
+    "msw": "^0.49.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.40.0",
@@ -39,12 +40,13 @@
     "redux": "^4.2.0",
     "sass": "^1.56.1",
     "typescript": "^4.9.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!@codemirror)/'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

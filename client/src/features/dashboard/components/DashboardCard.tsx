@@ -9,7 +9,7 @@ export type TDashboardCard = {
 
 const DashboardCard: FC<TDashboardCard> = ({ count, status, className }) => {
   return (
-    <Card className={className}>
+    <Card className={className} data-testid="dashboard-card">
       <h3 className="text-2xl">{count}</h3>
       <h4 className="uppercase text-lg font-semibold">
         <small className="flex text-md font-normal">Ride</small>

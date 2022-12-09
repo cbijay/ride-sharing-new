@@ -9,6 +9,7 @@ import {
   validatePickup,
 } from "core/store/form/reducer/form.reducer";
 import { getRiders } from "core/store/rider/reducer/rider.reducer";
+
 import { setActiveStep } from "core/store/step/reducer/step.reducer";
 import { addNotification } from "core/store/toast/reducer/toast.reducer";
 import { useFindRiders } from "features/booking/hooks/api/useFindRider";
@@ -37,16 +38,6 @@ const useBookingForm = () => {
     data && dispatch(getRiders(data?.riders));
   }, [data]);
 
-  useEffect(() => {
-    if (pickupRef.current.value === "")
-      dispatch(validatePickup("Pickup is required"));
-  }, [pickupRef]);
-
-  useEffect(() => {
-    if (destinationRef.current.value === "")
-      dispatch(validateDestination("Destination is required"));
-  }, [destinationRef]);
-
   const handlePickup = (place: any) => {
     pickupRef.current.value = place?.label;
     dispatch(storePickup(place));
@@ -66,19 +57,27 @@ const useBookingForm = () => {
   };
 
   const handleFindRider = async () => {
-    riders.length === 0 &&
-      dispatch(addNotification({ type: "Info", message: "No riders found" }));
+    if (pickupRef.current.value === "")
+      dispatch(validatePickup("Pickup is required"));
 
-    const errors = Object.values(error).filter((value) => value !== "").length;
-    errors === 0 && dispatch(setActiveStep(1));
+    if (destinationRef.current.value === "")
+      dispatch(validateDestination("Destination is required"));
+
+    if (pickupRef.current.value !== "" && destinationRef.current.value !== "") {
+      riders.length === 0 &&
+        dispatch(addNotification({ type: "Info", message: "No riders found" }));
+
+      dispatch(setActiveStep(1));
+    }
   };
 
   useEffect(() => {
-    if (startLocation) pickupRef.current.value = startLocation.address;
+    if (startLocation?.address) pickupRef.current.value = startLocation.address;
   }, [startLocation]);
 
   useEffect(() => {
-    if (endLocation) destinationRef.current.value = endLocation.address;
+    if (endLocation?.address)
+      destinationRef.current.value = endLocation.address;
   }, [endLocation]);
 
   return {

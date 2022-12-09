@@ -1,31 +1,21 @@
-import Card from "core/components/card/Card";
-import useAuth from "features/auth/hooks/components/useLogin";
-
-import { GoogleLogin } from "@react-oauth/google";
+import Auth from "features/auth/components/Auth";
+import useLogin from "features/auth/hooks/components/useLogin";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const { handleLogin } = useAuth(true);
+  const { handleLogin } = useLogin();
 
   return (
-    <Card className="max-w-[350px] w-full mt-32 mx-auto">
-      <h2 className="text-gray-900 text-lg mb-2 font-medium title-font">
-        Login
-      </h2>
-
-      <div className="mb-4">
-        <GoogleLogin
-          text="signin_with"
-          onSuccess={(success) => handleLogin(success)}
-          width="270px"
-          allowed_parent_origin={process.env.REACT_APP_BASE_URL}
-        />
-      </div>
-
-      <p className="text-sm italic">
-        Don't have account? <Link to="/signup">Signup</Link>
-      </p>
-    </Card>
+    <Auth
+      title="Login"
+      onSuccess={handleLogin}
+      text="signin_with"
+      footer={
+        <p className="text-sm italic" role="paragraph">
+          Don't have account? <Link to="/signup">Signup</Link>
+        </p>
+      }
+    />
   );
 };
 

@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { setCookie } from "core/lib/cookie";
 
 import { login } from "features/auth/api/login";
-import { IAuthResponse, ILogin } from "features/auth/types/IAuth";
+import { IAuthResponse, ILogin } from "features/auth/types/IAuthResponse";
 
 export const useLoginUser = ({ onSuccess, onError }: any) => {
   return useMutation<IAuthResponse, Error, ILogin>(

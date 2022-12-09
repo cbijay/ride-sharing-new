@@ -1,18 +1,13 @@
-import { ILogin } from "../types/IAuth";
+import api from "core/lib/api";
+import { IAuthResponse, ILogin } from "../types/IAuthResponse";
 
 export const login = async ({ credential }: ILogin) => {
-  const response = await fetch(
+  const response: IAuthResponse = await api.post(
     `${process.env.REACT_APP_BASE_URL!}/auth/login`,
     {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        credential: credential,
-      }),
+      credential: credential,
     }
   );
 
-  return response.json();
+  return response;
 };

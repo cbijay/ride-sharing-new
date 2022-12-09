@@ -9,9 +9,8 @@ import BookingDetailCard from "../components/detail/BookingDetailCard";
 import useUpdateStatus from "../hooks/components/rider/useUpdateStatus";
 
 const RiderRequest = () => {
-  const { status, bookingId, role, userId, isLoading, error, isDisabled } =
-    useRiderRequest();
-  const { handleStatus } = useUpdateStatus(bookingId, userId, role);
+  const { status, token, isLoading, error, isDisabled } = useRiderRequest();
+  const { handleStatus } = useUpdateStatus({ token });
 
   if (isLoading) return <LoadingSpinner />;
 

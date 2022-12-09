@@ -21,8 +21,6 @@ const useRider = (riderId?: string) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log("🚀 ~ file: useRider.tsx:13 ~ useRider ~ data", data);
-
   const {
     booking: { totalDistance, estimatedTime, startLocation, endLocation },
     isDisabled,

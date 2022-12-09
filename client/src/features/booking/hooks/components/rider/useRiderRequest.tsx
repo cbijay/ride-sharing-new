@@ -21,15 +21,10 @@ const useRiderRequest = () => {
   const { search } = useLocation();
   const token = new URLSearchParams(search).get("token");
 
-  const id = new URLSearchParams(search).get("id");
-  const { data, error: requestError } = useBookingRequest(id, token);
+  const { data, error: requestError } = useBookingRequest(token);
 
   const {
-    booking: {
-      _id: bookingId,
-      status,
-      user: { role, _id: userId },
-    },
+    booking: { _id: bookingId, status },
     isLoading,
     error,
     isDisabled,
@@ -84,7 +79,7 @@ const useRiderRequest = () => {
     requestError && dispatch(setError(requestError));
   }, [data, requestError]);
 
-  return { status, bookingId, role, userId, isLoading, error, isDisabled };
+  return { status, token, isLoading, error, isDisabled };
 };
 
 export default useRiderRequest;

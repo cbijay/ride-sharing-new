@@ -4,7 +4,7 @@ import BookingHistory from "../components/history/BookingHistory";
 const History = () => {
   return (
     <AppLayout>
-      <BookingHistory />
+      <BookingHistory perPage={10} />
     </AppLayout>
   );
 };

@@ -30,6 +30,7 @@ const RiderCard: FC<TRider> = ({
         "flex flex-row justify-between items-center p-3",
         className
       )}
+      data-testid="rider-card"
     >
       <div className="flex flex-row gap-2 items-start">
         <div className="flex flex-row gap-1">

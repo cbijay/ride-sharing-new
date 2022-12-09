@@ -13,7 +13,7 @@ const BookingCard: FC<TBookingCard> = ({
 }) => {
   return (
     <Card className="flex flex-row justify-between items-center">
-      <div>
+      <div data-testid="booking-card">
         {date && (
           <h3 className="text-md mb-1 text-gray-700 italic font-medium">
             {date}

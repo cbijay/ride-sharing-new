@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { setCookie } from "core/lib/cookie";
 
 import { signup } from "features/auth/api/signup";
-import { IAuthResponse, ISignup } from "features/auth/types/IAuth";
+import { IAuthResponse, ISignup } from "features/auth/types/IAuthResponse";
 
 export const useSignupUser = ({ onSuccess, onError }: any) => {
   return useMutation<IAuthResponse, Error, ISignup>(
@@ -14,7 +14,7 @@ export const useSignupUser = ({ onSuccess, onError }: any) => {
 
         onSuccess && onSuccess(data, variables);
       },
-      onError: (error: Error) => {
+      onError: (error: Error, _variables, _context) => {
         onError && onError(error);
       },
     }

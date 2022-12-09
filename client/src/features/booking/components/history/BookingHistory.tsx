@@ -8,17 +8,18 @@ import { Link } from "react-router-dom";
 
 export type TBookingHistory = {
   isViewLink?: boolean;
+  perPage: number;
 };
 
-const BookingHistory: FC<TBookingHistory> = ({ isViewLink }) => {
-  const { bookings } = useBookingHistory();
+const BookingHistory: FC<TBookingHistory> = ({ isViewLink, perPage }) => {
+  const { bookings, role } = useBookingHistory(1, perPage);
 
   return (
     <>
       <div className="flex flex-row justify-between mb-3">
         <h3 className="text-md font-medium mb-2">Booking History</h3>
         {isViewLink && (
-          <Link to="/history" className="text-success font-medium">
+          <Link to={`/${role}/bookings`} className="text-success font-medium">
             View All
           </Link>
         )}

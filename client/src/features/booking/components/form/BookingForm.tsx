@@ -1,7 +1,7 @@
-import Button from "core/components/buttons/Button";
 import Card from "core/components/card/Card";
 import useBookingForm from "features/booking/hooks/components/form/useBookingForm";
 
+import Button from "core/components/buttons/Button";
 import Autocomplete from "features/booking/components/autocomplete/Autocomplete";
 import DistanceTime from "features/booking/components/distance_time/DistanceTime";
 
@@ -42,6 +42,7 @@ const BookingForm = () => {
         <Button
           className="bg-black text-white py-2 rounded-xl text-md w-full self-start"
           onClick={handleFindRider}
+          type="button"
         >
           Find Rider
         </Button>

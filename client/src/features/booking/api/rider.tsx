@@ -11,12 +11,9 @@ export const findRiders = async (lat: number, long: number) => {
   return response;
 };
 
-export const bookingRequest = async (
-  id: string | null,
-  token: string | null
-) => {
+export const bookingRequest = async (token: string | null) => {
   const response: IRiderBookingResponse = await api.get(
-    `${process.env.REACT_APP_BASE_URL!}/booking/request?token=${token}&id=${id}`
+    `${process.env.REACT_APP_BASE_URL!}/booking/request?token=${token}`
   );
 
   return response;

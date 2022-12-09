@@ -9,7 +9,7 @@ export type TAutocomplete = {
   handleChange: Function;
   placeholder: string;
   className?: string;
-  name?: string;
+  name: string;
   error: any;
 };
 
@@ -22,6 +22,7 @@ const Autocomplete: FC<TAutocomplete> = ({
   className,
   name,
   error,
+  ...props
 }) => {
   const { places, getPlaces, showList, setShowList } = useAutoComplete();
 
@@ -38,12 +39,15 @@ const Autocomplete: FC<TAutocomplete> = ({
           getPlaces(event);
           places && places.length > 0 && handleChange();
         }}
+        {...props}
       />
 
-      {error && name && error[name] !== "" && (
-        <p role="alert" className="text-red-500 mt-2">
+      {error[name] ? (
+        <p data-testid="error" className="text-red-500 my-2 text-sm">
           {error[name]}
         </p>
+      ) : (
+        <></>
       )}
 
       {places && places?.length > 0 && (
@@ -51,10 +55,12 @@ const Autocomplete: FC<TAutocomplete> = ({
           className={`bg-white shadow rounded-md ${
             !showList ? "hidden" : "overflow-auto max-h-[150px] h-auto"
           } absolute left-0 right-0 `}
+          onMouseLeave={() => setShowList(false)}
         >
           {places &&
             places.map((place: any, index: number) => (
               <li
+                data-testid="place"
                 key={index}
                 onClick={() => {
                   handlePlace && handlePlace(place);

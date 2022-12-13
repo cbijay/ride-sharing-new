@@ -1,11 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
-
-const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const app = express();
-
 const connectDb = require("./db/connection");
 const routes = require("./routes");
 const { config } = require("./config");
@@ -15,13 +12,12 @@ const corsOptions = {
   optionsSuccessStatus: 200,
   credentials: true,
 };
-app.use(cors(corsOptions));
 
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
-app.use(cookieParser());
+app.use(express.json());
 app.use("/api", routes);
 
 module.exports = app.listen(config.app.port, () => {

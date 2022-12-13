@@ -1,4 +1,3 @@
-import Avatar from "core/components/avatar/Avatar";
 import Card from "core/components/card/Card";
 import { TBookingCard } from "core/types/components/card/TBookingCard";
 
@@ -9,7 +8,6 @@ const BookingCard: FC<TBookingCard> = ({
   date,
   startLocation,
   endLocation,
-  user,
 }) => {
   return (
     <Card className="flex flex-row justify-between items-center">
@@ -33,7 +31,6 @@ const BookingCard: FC<TBookingCard> = ({
           </h5>
         )}
       </div>
-      {user && <Avatar>{user[0]}</Avatar>}
     </Card>
   );
 };

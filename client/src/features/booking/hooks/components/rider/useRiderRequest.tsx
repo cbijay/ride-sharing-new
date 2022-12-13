@@ -22,9 +22,13 @@ const useRiderRequest = () => {
   const token = new URLSearchParams(search).get("token");
 
   const { data, error: requestError } = useBookingRequest(token);
+  console.log(
+    "🚀 ~ file: useRiderRequest.tsx:25 ~ useRiderRequest ~ data",
+    data
+  );
 
   const {
-    booking: { _id: bookingId, status },
+    booking: { _id: status },
     isLoading,
     error,
     isDisabled,

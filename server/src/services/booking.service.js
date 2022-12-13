@@ -10,8 +10,8 @@ exports.createBooking = async (body, userId, userName, riderId) => {
     const rider = await riderRepo.findSelectedRider(riderId);
     if (!riderId) throw new Error("Rider id is required");
 
-    if (!body.startLocation) throw new Error("Pickup is required");
-    if (!body.endLocation) throw new Error("Destination is required");
+    if (!body.pickupAddress) throw new Error("Pickup is required");
+    if (!body.destinationAddress) throw new Error("Destination is required");
 
     const token = sign(
       {

@@ -1,5 +1,5 @@
 import EmptyCard from "core/components/card/EmptyCard";
-import BookingCard from "features/booking/components/card/BookingCard";
+import BookingCard from "features/booking/components/card/booking/BookingCard";
 import useBookingHistory from "features/booking/hooks/components/booking/useBookingHistory";
 import { IBooking } from "features/booking/types/IBooking";
 
@@ -42,7 +42,7 @@ const BookingHistory: FC<TBookingHistory> = ({ isViewLink, perPage }) => {
           )
         )
       ) : (
-        <EmptyCard message="No riders found" />
+        <EmptyCard message="No booking exists!!" />
       )}
     </>
   );

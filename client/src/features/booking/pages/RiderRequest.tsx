@@ -14,7 +14,7 @@ const RiderRequest = () => {
 
   if (isLoading) return <LoadingSpinner />;
 
-  if (error)
+  if (error?.message !== "")
     return (
       <ErrorData
         icon={

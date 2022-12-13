@@ -45,7 +45,7 @@ const useRider = (riderId?: string) => {
   useEffect(() => {
     if (data) {
       dispatch(addNotification({ type: "Success", message: data?.message }));
-      navigate("/user/dashboard");
+      navigate("/user/bookings");
       dispatch(setDisabled(false));
     }
 

@@ -5,7 +5,7 @@ import RideMap from "features/booking/components/map/RideMap";
 const FindRider = () => {
   return (
     <Card className="p-3 relative">
-      <RideMap />
+      <RideMap style={{ height: "70vh" }} />
       <BookingForm />
     </Card>
   );

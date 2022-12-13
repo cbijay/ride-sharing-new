@@ -5,6 +5,7 @@ const { config } = require("../config");
 const auth = (req, res, next) => {
   try {
     const bearerHeader = req.headers["authorization"];
+    if (!bearerHeader) return errorResponse(res, 401, "Unauthorized!!");
 
     const token = bearerHeader.split(" ")[1];
     if (!token) return errorResponse(res, 401, "Unauthorized!!");

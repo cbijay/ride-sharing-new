@@ -1,13 +1,13 @@
-FROM node:latest
+FROM node:lts
 
-WORKDIR /app/server
+WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install npm@9.2.0
 
 COPY . .
 
 EXPOSE 8000
 
-CMD ["node", "src/server.js"]
+CMD ["npm", "start"]

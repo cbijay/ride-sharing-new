@@ -6,14 +6,15 @@ import useUpdateStatus from "features/booking/hooks/components/rider/useUpdateSt
 import useBookingDetail from "features/booking/hooks/pages/useBookingDetail";
 
 const BookingDetail = () => {
-  const { id, status, isDisabled } = useBookingDetail();
+  const { id, status, role, isDisabled } = useBookingDetail();
   const { handleStatus } = useUpdateStatus({ bookingId: id });
 
   return (
     <AppLayout>
       <BookingDetailCard
         buttons={
-          status && (
+          status &&
+          role === "user" && (
             <div className="flex flex-row items-center gap-2">
               <>
                 {status !== "Cancelled" && (

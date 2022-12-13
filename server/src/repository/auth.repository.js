@@ -10,7 +10,7 @@ exports.createUser = async (profile, lat, long) => {
     email: profile?.email,
     profilePic: profile?.picture,
     location: {
-      coordinates: [lat, long],
+      coordinates: [long, lat],
     },
   });
 };

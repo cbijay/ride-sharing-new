@@ -5,15 +5,13 @@ import { useFetchDashboardStat } from "features/dashboard/hooks/api/useDashboard
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const useDashboard = () => {
+const useDashboardStat = () => {
   const { data } = useFetchDashboardStat();
   const dispatch = useDispatch();
 
   const { completedCount, pendingCount, cancelledCount } = useSelector(
     (state: RootState) => state.stat
   );
-
-  const { name } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     data &&
@@ -26,7 +24,7 @@ const useDashboard = () => {
       );
   }, [data]);
 
-  return { cancelledCount, completedCount, pendingCount, name };
+  return { cancelledCount, completedCount, pendingCount };
 };
 
-export default useDashboard;
+export default useDashboardStat;

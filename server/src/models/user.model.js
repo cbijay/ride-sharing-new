@@ -1,5 +1,17 @@
 const { Schema, model } = require("mongoose");
 
+const pointSchema = {
+  type: {
+    type: String,
+    enum: ["Point"],
+    required: true,
+  },
+  coordinates: {
+    type: [Number],
+    required: true,
+  },
+};
+
 const userSchema = new Schema({
   name: {
     type: String,
@@ -30,6 +42,8 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.index({ location: "2dsphere" });
+userSchema.index({
+  location: "2dsphere",
+});
 
 exports.User = model("users", userSchema);

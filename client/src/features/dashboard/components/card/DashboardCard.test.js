@@ -1,5 +1,5 @@
 import { renderWithProvider } from "core/utils/tests/render";
-import DashboardCard from "features/dashboard/components/DashboardCard";
+import DashboardCard from "features/dashboard/components/card/DashboardCard";
 
 describe("Dashboard Card", () => {
   it("should render dashboard card component", () => {

@@ -31,7 +31,7 @@ const Autocomplete: FC<TAutocomplete> = ({
       <input
         name={name}
         type="text"
-        className="border w-full rounded-md py-2 px-2"
+        className="border w-full rounded-md py-2 px-2 "
         ref={inputRef}
         value={value}
         placeholder={placeholder}
@@ -39,6 +39,7 @@ const Autocomplete: FC<TAutocomplete> = ({
           getPlaces(event);
           places && places.length > 0 && handleChange();
         }}
+        autoComplete="off"
         {...props}
       />
 
@@ -53,7 +54,7 @@ const Autocomplete: FC<TAutocomplete> = ({
       {places && places?.length > 0 && (
         <div
           className={`bg-white shadow rounded-md ${
-            !showList ? "hidden" : "overflow-auto max-h-[150px] h-auto"
+            !showList ? "hidden" : "overflow-auto max-h-[150px] h-auto z-10"
           } absolute left-0 right-0 `}
           onMouseLeave={() => setShowList(false)}
         >

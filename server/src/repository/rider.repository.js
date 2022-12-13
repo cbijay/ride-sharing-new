@@ -1,3 +1,4 @@
+const { Types } = require("mongoose");
 const { User } = require("../models/user.model");
 
 exports.getRidersByLocation = async (lat, long) => {
@@ -6,12 +7,12 @@ exports.getRidersByLocation = async (lat, long) => {
       $geoNear: {
         near: {
           type: "Point",
-          coordinates: [Number(lat), Number(long)],
+          coordinates: [parseFloat(long), parseFloat(lat)],
         },
         query: { role: "rider" },
-        distanceField: "distance",
-        maxDistance: 150 * 1609.34,
+        key: "location",
         spherical: true,
+        distanceField: "distance",
       },
     },
     {
@@ -43,7 +44,7 @@ exports.findSelectedRider = async (riderId) => {
   return await User.aggregate([
     {
       $match: {
-        _id: riderId,
+        _id: Types.ObjectId(riderId),
       },
     },
   ]);

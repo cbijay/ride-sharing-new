@@ -20,7 +20,7 @@ const BookRider = () => {
       <Card className="mb-4">
         <BookingInfo />
       </Card>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-0 xl:grid-cols-2 gap-2">
         <Card className="p-3">
           <RideMap />
         </Card>

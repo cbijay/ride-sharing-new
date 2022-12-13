@@ -6,7 +6,7 @@ const AppSidebar = () => {
   const { sidebarItems, role, pathname } = useAppSidebar();
 
   return (
-    <div className="max-w-[200px] w-full bg-white h-full py-6 px-4">
+    <div className="lg:max-w-[220px] lg:flex flex-col w-full bg-white py-6 px-4 hidden">
       <AppLogo className="mt-4 mb-16 mx-auto" />
 
       <div>

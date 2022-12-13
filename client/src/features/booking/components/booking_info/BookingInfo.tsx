@@ -21,7 +21,7 @@ const BookingInfo: FC<TBookingInfo> = ({ isCol, className }) => {
       {startLocation.address ? (
         <h4
           className={`text-gray-500 mb-1 italic flex ${
-            isCol ? "flex-col" : "flex-row items-center"
+            isCol ? "md:flex-col" : "flex-col md:flex-row md:items-center"
           }`}
         >
           {isCol ? (
@@ -36,8 +36,9 @@ const BookingInfo: FC<TBookingInfo> = ({ isCol, className }) => {
             </>
           ) : (
             <>
-              <AiTwotoneStop className="mr-1" />
-              <span className="font-medium text-black mr-2">Pickup:</span>
+              <span className="font-medium text-black mr-2 flex-row flex items-center">
+                <AiTwotoneStop className="mr-1" /> Pickup:
+              </span>
               {startLocation.address}
             </>
           )}
@@ -49,7 +50,9 @@ const BookingInfo: FC<TBookingInfo> = ({ isCol, className }) => {
       {endLocation.address ? (
         <h4
           className={`text-gray-500 mb-1 italic flex flex-row ${
-            isCol ? "flex-col" : "flex-row items-center"
+            isCol
+              ? "flex-col"
+              : "flex-col items-start md:flex-row md:items-center"
           }`}
         >
           {isCol ? (
@@ -64,8 +67,9 @@ const BookingInfo: FC<TBookingInfo> = ({ isCol, className }) => {
             </>
           ) : (
             <>
-              <AiTwotoneStop className="mr-1" color="orange" />
-              <span className="font-medium text-black mr-2">Destination:</span>
+              <span className="font-medium text-black mr-2 flex-row flex items-center">
+                <AiTwotoneStop className="mr-1" color="orange" /> Destination:
+              </span>
               {endLocation.address}
             </>
           )}

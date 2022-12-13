@@ -1,6 +1,6 @@
-import Card from "core/components/card/Card";
-import RiderCard from "core/components/card/RiderCard";
+import EmptyCard from "core/components/card/EmptyCard";
 import { RootState } from "core/store";
+import RiderCard from "features/booking/components/card/rider/RiderCard";
 
 import { IBookingRider } from "features/booking/types/IBookingRider";
 import { useSelector } from "react-redux";
@@ -10,7 +10,7 @@ const RiderList = () => {
 
   return (
     <div>
-      {riders.length > 0 ? (
+      {riders && riders.length > 0 ? (
         riders.map(
           (
             {
@@ -32,9 +32,7 @@ const RiderList = () => {
           )
         )
       ) : (
-        <Card>
-          <h2>No riders found</h2>
-        </Card>
+        <EmptyCard message="No booking exists" />
       )}
     </div>
   );

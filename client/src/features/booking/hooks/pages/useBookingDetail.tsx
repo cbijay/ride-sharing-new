@@ -15,10 +15,9 @@ import { useGetBookingById } from "../api/useFetchBookingDetail";
 const useBookingDetail = () => {
   const { userId, role } = useSelector((state: RootState) => state.user);
   const { id } = useParams();
-
   const { search } = useLocation();
-  const token = new URLSearchParams(search).get("token");
 
+  const token = new URLSearchParams(search).get("token");
   const { data, error: requestError } = useGetBookingById(id);
 
   const {

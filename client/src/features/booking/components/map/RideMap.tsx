@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import LoadingSpinner from "core/components/loading/LoadingSpinner";
 import {
   calculateDistance,
@@ -18,9 +19,10 @@ const markerIcon = L.icon({
 
 export type TRideMap = {
   style?: CSSProperties;
+  className?: string;
 };
 
-const RideMap: FC<TRideMap> = ({ style }) => {
+const RideMap: FC<TRideMap> = ({ style, className }) => {
   const {
     latitude,
     longitude,
@@ -43,10 +45,10 @@ const RideMap: FC<TRideMap> = ({ style }) => {
           : longitude
       )}
       zoom={18}
-      className="w-full"
+      className={classNames("w-full h-[50vh] xl:h-full", className)}
       zoomControl={false}
       scrollWheelZoom={false}
-      style={style ?? { height: "70vh" }}
+      style={style}
     >
       <TileLayer
         url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"

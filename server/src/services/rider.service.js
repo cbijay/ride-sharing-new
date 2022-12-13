@@ -6,6 +6,10 @@ exports.getRiders = async (lat, long) => {
       throw new Error("Please provide pickup latitude and longitude");
 
     const riders = await riderRepo.getRidersByLocation(lat, long);
+    console.log(
+      "🚀 ~ file: rider.service.js:9 ~ exports.getRiders= ~ riders",
+      riders
+    );
 
     return {
       type: "Success",

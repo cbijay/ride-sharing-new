@@ -1,5 +1,7 @@
 import { RootState } from "core/store";
 import {
+  calculateDistance,
+  calculateTime,
   setLoading,
   storeDestination,
   storePickup,
@@ -9,9 +11,9 @@ import {
   validatePickup,
 } from "core/store/form/reducer/form.reducer";
 import { getRiders } from "core/store/rider/reducer/rider.reducer";
-
 import { setActiveStep } from "core/store/step/reducer/step.reducer";
 import { addNotification } from "core/store/toast/reducer/toast.reducer";
+
 import { useFindRiders } from "features/booking/hooks/api/useFindRider";
 import { IPlace } from "features/booking/types/IPlace";
 
@@ -29,6 +31,21 @@ const useBookingForm = () => {
 
   const { error } = useSelector((state: RootState) => state.form);
   const { riders } = useSelector((state: RootState) => state.rider);
+
+  const defaultPlace = {
+    label: "",
+    raw: {
+      lat: 0,
+      lon: 0,
+    },
+  };
+
+  useEffect(() => {
+    dispatch(storePickup(defaultPlace));
+    dispatch(storeDestination(defaultPlace));
+    dispatch(calculateDistance(0));
+    dispatch(calculateTime(0));
+  }, []);
 
   const { data } = useFindRiders(
     startLocation.coordinates[0],
@@ -65,10 +82,10 @@ const useBookingForm = () => {
       dispatch(validateDestination("Destination is required"));
 
     if (pickupRef.current.value !== "" && destinationRef.current.value !== "") {
+      riders.length > 0 && dispatch(setActiveStep(1));
+
       riders.length === 0 &&
         dispatch(addNotification({ type: "Info", message: "No riders found" }));
-
-      dispatch(setActiveStep(1));
     }
   };
 

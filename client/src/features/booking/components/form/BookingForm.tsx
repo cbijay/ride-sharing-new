@@ -18,7 +18,7 @@ const BookingForm = () => {
 
   return (
     <Card className="w-full absolute z-[1000] bottom-[-50px] left-0 right-0 p-4">
-      <div className="grid items-top flex-1 grid-flow-col gap-2 mb-3">
+      <div className="grid items-top flex-1 md:grid-flow-col gap-y-2 md:gap-2 mb-3">
         <Autocomplete
           name="pickup"
           inputRef={pickupRef}

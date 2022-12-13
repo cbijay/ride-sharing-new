@@ -14,7 +14,7 @@ const DistanceTime: FC<TDistanceTime> = ({ className }) => {
   } = useSelector((state: RootState) => state.booking);
 
   return (
-    <div className={classNames("grid grid-cols-4 gap-2", className)}>
+    <div className={classNames("grid md:grid-cols-4 gap-2", className)}>
       {totalDistance ? (
         <h5 className="flex">
           Distance:{" "}

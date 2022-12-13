@@ -66,6 +66,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 ## File Structure
 
 For Server
+
 Project has been structured according to service repository design pattern. The project contains src directory which have divided into - models, controllers, routes etc
 
 ![Alt text](server/src/screenshot/be_project_structure.png?raw=true "Server Project Structure")

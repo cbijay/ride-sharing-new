@@ -7,7 +7,7 @@ const useAutoComplete = () => {
 
   const provider = new LocationIQProvider({
     params: {
-      key: process.env.REACT_APP_PROVIDER_KEY!,
+      key: process.env.REACT_APP_MAP_PROVIDER_KEY!,
       countrycodes: "np",
       addressdetails: 1,
     },

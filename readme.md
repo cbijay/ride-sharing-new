@@ -96,6 +96,7 @@ npm seed:rider
 ## Api Docs
 
 For api docs to test or get the api endpoints used in the app.
+
 Open [http://localhost:8000/api/doc](http://localhost:8000/api/doc) from the browser
 
 ## Testing

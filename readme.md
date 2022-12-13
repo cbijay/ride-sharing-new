@@ -1,6 +1,8 @@
 # Ride Sharing App
 
-It is a ride sharing app built using react as a frontend and express as a backend. It is also part of assignment to gain knowledge on mern stack
+It is a ride sharing app built using react as a frontend and express as a backend. On client side React query has been used to fetch api requests, Redux and tookit for state management cypress for e2e testing.
+
+On server side jwt and google auth library has been used for authentication, mocha, chai and sinon js for testing, swagger ui for api docs and nodemailer for mail. It is also part of assignment to gain knowledge on mern stack.
 
 ## Getting Started
 

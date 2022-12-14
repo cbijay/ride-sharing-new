@@ -1,6 +1,6 @@
 import { RootState } from "core/store";
 import { fetchStat } from "core/store/stat/reducer/stat.reducer";
-import { useFetchDashboardStat } from "features/dashboard/hooks/api/useDashboardStat";
+import { useFetchDashboardStat } from "features/dashboard/hooks/api/useFetchDashboardStat";
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

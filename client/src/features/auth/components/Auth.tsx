@@ -1,6 +1,6 @@
-import { GoogleLogin } from "@react-oauth/google";
 import { FC } from "react";
 
+import { GoogleLogin } from "@react-oauth/google";
 import Card from "core/components/card/Card";
 import { TAuth } from "features/auth/types/TAuth";
 
@@ -14,12 +14,16 @@ export const Auth: FC<TAuth> = ({ title, onSuccess, text, footer }) => {
       )}
 
       <div className="mb-4">
-        <GoogleLogin
-          text={text}
-          onSuccess={(success) => onSuccess(success)}
-          width="270px"
-          allowed_parent_origin={process.env.REACT_APP_BASE_URL}
-        />
+        <div id="google-login">
+          {/* <Button onClick={() => onSuccess()}>Login</Button> */}
+          <GoogleLogin
+            text={text}
+            onSuccess={(success) => onSuccess(success)}
+            width="270px"
+            type="standard"
+            allowed_parent_origin={process.env.REACT_APP_BASE_URL}
+          />
+        </div>
       </div>
 
       {footer && footer}

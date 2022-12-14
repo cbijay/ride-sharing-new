@@ -25,7 +25,7 @@ const DistanceTime: FC<TDistanceTime> = ({ className }) => {
       )}
       {estimatedTime ? (
         <h5 className="flex">
-          Estimated Time:{" "}
+          Estimated Time:
           <span className="text-success ml-2">{`${estimatedTime} min`}</span>
         </h5>
       ) : (

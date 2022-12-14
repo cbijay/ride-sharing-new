@@ -1,4 +1,6 @@
 const { faker } = require("@faker-js/faker");
+const { Logger } = require("../../logs/logger");
+
 const { calculateLongitude } = require("../../utils/coordinate");
 const MongoClient = require("mongodb").MongoClient;
 
@@ -63,13 +65,13 @@ async function seedUser() {
     );
 
     if ((userCount && riderCount) === total) {
-      console.log("Database seeded! :)");
+      Logger.info("Database seeded! :)");
       client.close();
     }
 
     userCollection.createIndex({ location: "2dsphere" });
   } catch (err) {
-    console.log(err.message);
+    Logger.info(err.message);
   }
 }
 

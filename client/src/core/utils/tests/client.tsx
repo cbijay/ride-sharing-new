@@ -1,7 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 
-export const createTestQueryClient = () =>
-  new QueryClient({
+export const createTestQueryClient = () => {
+  return new QueryClient({
     defaultOptions: {
       queries: {
         retry: false,
@@ -10,6 +10,7 @@ export const createTestQueryClient = () =>
     logger: {
       log: console.log,
       warn: console.warn,
-      error: () => {},
+      error: () => console.error,
     },
   });
+};

@@ -1,4 +1,5 @@
 const { faker } = require("@faker-js/faker");
+const { Logger } = require("../../logs/logger");
 const MongoClient = require("mongodb").MongoClient;
 
 async function seedUser() {
@@ -39,13 +40,13 @@ async function seedUser() {
     const { insertedCount } = await userCollection.insertMany(users);
 
     if (insertedCount === total) {
-      console.log("Database seeded! :)");
+      Logger.info("Database seeded! :)");
       client.close();
     }
 
     userCollection.createIndex({ location: "2dsphere" });
   } catch (err) {
-    console.log(err.message);
+    Logger.error(err.message);
   }
 }
 

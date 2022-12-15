@@ -5,6 +5,15 @@ const mail = require("../utils/mail");
 const { config } = require("../config");
 const { sign, verify } = require("jsonwebtoken");
 
+/**
+ * find selected rider, creates booking
+ * send email to the respective rider email
+ * @param {*} body
+ * @param {*} userId
+ * @param {*} userName
+ * @param {*} riderId
+ * @returns
+ */
 exports.createBooking = async (body, userId, userName, riderId) => {
   try {
     const rider = await riderRepo.findSelectedRider(riderId);
@@ -55,6 +64,13 @@ exports.createBooking = async (body, userId, userName, riderId) => {
     };
   }
 };
+
+/**
+ * Verify request based on token query provided from url
+ * when user click on link they got from the email for the new ride request
+ * @param {*} token
+ * @returns
+ */
 
 exports.verifyRequest = async (token) => {
   try {

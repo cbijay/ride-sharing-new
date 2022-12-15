@@ -1,6 +1,14 @@
 const riderService = require("../services/rider.service");
 const response = require("../utils/response");
 
+/**
+ * Search Rider
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
+
 exports.searchRider = async (req, res, next) => {
   try {
     const { lat, long } = req.query;

@@ -1,6 +1,12 @@
 const authRepo = require("../repository/auth.repository");
 const google = require("../utils/google");
 
+/**
+ * Login using credential from google auth
+ * @param {*} credential
+ * @returns
+ */
+
 exports.login = async (credential) => {
   try {
     if (!credential) throw new Error("Invalid Credential");
@@ -27,6 +33,13 @@ exports.login = async (credential) => {
   }
 };
 
+/**
+ * Signup using google auth credential, latitude and longitude
+ * @param {*} credential
+ * @param {*} lat
+ * @param {*} long
+ * @returns
+ */
 exports.signup = async (credential, lat, long) => {
   try {
     if (!credential) throw new Error("Invalid Credential");

@@ -1,5 +1,14 @@
 const dashboardRepo = require("../repository/dashboard.repository");
 
+/**
+ * display user booking count on dashboard
+ * based on their riding history
+ * like pending, completed, cancelled count
+ * @param {*} role
+ * @param {*} userId
+ * @returns
+ */
+
 exports.dashboardStats = async (role, userId) => {
   try {
     const pendingStat = await dashboardRepo.userBookingStat(

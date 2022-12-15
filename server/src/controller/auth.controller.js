@@ -1,6 +1,13 @@
 const authService = require("../services/auth.service");
 const response = require("../utils/response");
 
+/**
+ * User Signup
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+
 exports.userSignup = async (req, res) => {
   try {
     const {
@@ -23,6 +30,13 @@ exports.userSignup = async (req, res) => {
   }
 };
 
+/**
+ * User Login
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 exports.userLogin = async (req, res, next) => {
   try {
     const {

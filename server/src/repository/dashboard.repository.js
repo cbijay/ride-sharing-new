@@ -1,6 +1,15 @@
 const { Types } = require("mongoose");
 const { Booking } = require("../models/booking.model");
 
+/**
+ * Display user booking stat like pending, completed, cancelled count
+ * for given user id, role and status
+ * @param {*} role
+ * @param {*} userId
+ * @param {*} status
+ * @returns
+ */
+
 exports.userBookingStat = async (role, userId, status) => {
   return await Booking.aggregate([
     {

@@ -1,6 +1,13 @@
 const { Types } = require("mongoose");
 const { User } = require("../models/user.model");
 
+/**
+ * Get riders that matches given latitude and longitude
+ * return riders along with their vehicle detail
+ * @param {*} lat
+ * @param {*} long
+ * @returns
+ */
 exports.getRidersByLocation = async (lat, long) => {
   return await User.aggregate([
     {
@@ -39,6 +46,12 @@ exports.getRidersByLocation = async (lat, long) => {
     },
   ]);
 };
+
+/**
+ * Find selected rider that matches given rider id
+ * @param {*} riderId
+ * @returns
+ */
 
 exports.findSelectedRider = async (riderId) => {
   return await User.aggregate([

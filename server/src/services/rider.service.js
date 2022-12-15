@@ -1,5 +1,11 @@
 const riderRepo = require("../repository/rider.repository");
 
+/**
+ * Get riders based on pickup address latitude and longitude
+ * @param {*} lat
+ * @param {*} long
+ * @returns
+ */
 exports.getRiders = async (lat, long) => {
   try {
     if (!lat || !long)

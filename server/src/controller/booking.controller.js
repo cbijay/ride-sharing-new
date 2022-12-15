@@ -1,6 +1,13 @@
 const response = require("../utils/response");
 const bookingService = require("../services/booking.service");
 
+/**
+ * Book Ride
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 exports.bookRide = async (req, res, next) => {
   try {
     const {
@@ -22,6 +29,14 @@ exports.bookRide = async (req, res, next) => {
   }
 };
 
+/**
+ * Ride Request to riders on new booking
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
+
 exports.rideRequest = async (req, res, next) => {
   try {
     const { token } = req.query;
@@ -38,6 +53,14 @@ exports.rideRequest = async (req, res, next) => {
     next(e);
   }
 };
+
+/**
+ * Booking Detail
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 
 exports.bookingDetail = async (req, res, next) => {
   try {
@@ -58,6 +81,13 @@ exports.bookingDetail = async (req, res, next) => {
   }
 };
 
+/**
+ * Update Booking Status
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 exports.updateBookingStatus = async (req, res, next) => {
   try {
     const {
@@ -83,6 +113,14 @@ exports.updateBookingStatus = async (req, res, next) => {
     next(e);
   }
 };
+
+/**
+ * Booking History
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 
 exports.bookingHistory = async (req, res, next) => {
   try {

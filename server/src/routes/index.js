@@ -21,11 +21,6 @@ routes.use(
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocument, {
     explorer: true,
-    oauth: {
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      appName: "Ride Sharing",
-    },
   })
 );
 

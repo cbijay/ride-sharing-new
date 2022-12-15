@@ -2,6 +2,15 @@ const { Types } = require("mongoose");
 const { Booking } = require("../models/booking.model");
 const { User } = require("../models/user.model");
 
+/**
+ * create new booking based on request
+ * pickup and destination address
+ * user Id and riderId
+ * @param {*} body
+ * @param {*} userId
+ * @param {*} riderId
+ * @returns
+ */
 exports.bookRide = async (body, userId, riderId) => {
   const {
     requestTime,
@@ -29,6 +38,14 @@ exports.bookRide = async (body, userId, riderId) => {
     riderId: riderId,
   });
 };
+
+/**
+ * Find booking of specific user
+ * based on userId and role
+ * @param {*} userId
+ * @param {*} role
+ * @returns
+ */
 
 exports.findBooking = async (userId, role) => {
   let matchQuery;
@@ -76,10 +93,26 @@ exports.findBooking = async (userId, role) => {
   ]);
 };
 
+/**
+ * Update booking for given booking id
+ * and the query that needs to be updated
+ * @param {*} bookingId
+ * @param {*} query
+ * @returns
+ */
 exports.updateBooking = async (bookingId, query) => {
   return await Booking.updateOne({ _id: bookingId }, { $set: query });
 };
 
+/**
+ * Fetch user booking history for given user id and role
+ * also paginate booking history based on skip and limit
+ * @param {*} skip
+ * @param {*} limit
+ * @param {*} userRole
+ * @param {*} userId
+ * @returns
+ */
 exports.userBookingHistory = async (skip, limit, userRole, userId) => {
   return await Booking.aggregate([
     {
@@ -128,9 +161,20 @@ exports.userBookingHistory = async (skip, limit, userRole, userId) => {
   ]);
 };
 
+/**
+ * Find user that matches given userId
+ * @param {*} userId
+ * @returns
+ */
 exports.findUser = async (userId) => {
   return await User.findOne({ _id: Types.ObjectId(userId) });
 };
+
+/**
+ * Find booking that matches given booking id
+ * @param {*} bookingId
+ * @returns
+ */
 
 exports.bookingById = async (bookingId) => {
   return await Booking.aggregate([

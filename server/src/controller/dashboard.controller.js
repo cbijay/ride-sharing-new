@@ -1,6 +1,13 @@
 const dashboardService = require("../services/dashboard.service");
 const response = require("../utils/response");
 
+/**
+ * User Dashboard
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 exports.userDashboard = async (req, res, next) => {
   try {
     const {

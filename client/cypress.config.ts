@@ -13,5 +13,6 @@ export default defineConfig({
     baseUrl: process.env.REACT_APP_CLIENT_URL,
     googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
     googleClientSecret: process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
+    googleRefreshToken: process.env.REACT_APP_GOOGLE_CLIENT_REFRESH_TOKEN,
   },
 });

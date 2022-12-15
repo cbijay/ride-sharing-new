@@ -13,6 +13,7 @@ export type TRider = {
   vehicleName: string;
   profilePic: string;
   className?: string;
+  index: number;
 };
 
 const RiderCard: FC<TRider> = ({
@@ -21,8 +22,10 @@ const RiderCard: FC<TRider> = ({
   vehicleName,
   profilePic,
   className,
+  index,
 }) => {
-  const { handleBooking, isDisabled } = useRider(riderId);
+  const { handleBooking, disabled } = useRider(riderId);
+  console.log("🚀 ~ file: RiderCard.tsx:27 ~ index", disabled.includes(index));
 
   return (
     <Card
@@ -60,9 +63,9 @@ const RiderCard: FC<TRider> = ({
       </div>
       <Button
         className={`bg-black text-white px-4 text-sm self-start max-w-full sm:max-w-[120px] w-full sm:self-center ${
-          isDisabled === true ? "opacity-40" : ""
+          disabled.includes(index) === true ? "opacity-40" : ""
         }`}
-        onClick={() => isDisabled === false && handleBooking()}
+        onClick={() => disabled.includes(index) === false && handleBooking()}
       >
         Book Now
       </Button>

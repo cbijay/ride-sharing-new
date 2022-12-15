@@ -1,7 +1,5 @@
 import { RootState } from "core/store";
 import {
-  calculateDistance,
-  calculateTime,
   setLoading,
   storeDestination,
   storePickup,
@@ -32,20 +30,21 @@ const useBookingForm = () => {
   const { error } = useSelector((state: RootState) => state.form);
   const { riders } = useSelector((state: RootState) => state.rider);
 
-  const defaultPlace = {
-    label: "",
-    raw: {
-      lat: 0,
-      lon: 0,
-    },
-  };
+  // const defaultPlace = {
+  //   label: "",
+  //   raw: {
+  //     lat: 0,
+  //     lon: 0,
+  //   },
+  // };
 
-  useEffect(() => {
-    dispatch(storePickup(defaultPlace));
-    dispatch(storeDestination(defaultPlace));
-    dispatch(calculateDistance(0));
-    dispatch(calculateTime(0));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(storePickup(defaultPlace));
+  //   dispatch(storeDestination(defaultPlace));
+  //   dispatch(calculateDistance(0));
+  //   dispatch(calculateTime(0));
+  //   dispatch(setActiveStep(0));
+  // }, []);
 
   const { data } = useFindRiders(
     startLocation.coordinates[0],

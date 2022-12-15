@@ -1,12 +1,11 @@
 import AppLayout from "core/layouts/AppLayout";
-import { RootState } from "core/store";
 import BookRider from "features/booking/components/step_form/BookRider";
 
 import FindRider from "features/booking/components/step_form/FindRider";
-import { useSelector } from "react-redux";
+import useBookRide from "features/booking/hooks/pages/useBookRide";
 
 const BookRide = () => {
-  const { activeStep } = useSelector((state: RootState) => state.step);
+  const { activeStep } = useBookRide();
 
   return (
     <AppLayout>

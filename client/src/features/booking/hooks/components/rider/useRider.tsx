@@ -2,7 +2,7 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { RootState } from "core/store";
 import { IBookingResponse } from "features/booking/types/IBooking";
 
-import { setDisabled } from "core/store/booking/reducer/booking.reducer";
+import { setButtonDisable } from "core/store/booking/reducer/booking.reducer";
 import { addNotification } from "core/store/toast/reducer/toast.reducer";
 import { useBookRider } from "features/booking/hooks/api/useBookRider";
 import { IUserBookingRequest } from "features/booking/types/IUserBooking";
@@ -23,7 +23,7 @@ const useRider = (riderId?: string) => {
 
   const {
     booking: { totalDistance, estimatedTime, startLocation, endLocation },
-    isDisabled,
+    disabled,
   } = useSelector((state: RootState) => state.booking);
 
   const handleBooking = () => {
@@ -37,7 +37,7 @@ const useRider = (riderId?: string) => {
       estimatedTime,
     };
 
-    dispatch(setDisabled(true));
+    dispatch(setButtonDisable(0));
 
     mutate(formValues);
   };
@@ -46,14 +46,14 @@ const useRider = (riderId?: string) => {
     if (data) {
       dispatch(addNotification({ type: "Success", message: data?.message }));
       navigate("/user/bookings");
-      dispatch(setDisabled(false));
+      dispatch(setButtonDisable(0));
     }
 
     error &&
       dispatch(addNotification({ type: "Error", message: error?.message }));
   }, [data]);
 
-  return { handleBooking, isDisabled };
+  return { handleBooking, disabled };
 };
 
 export default useRider;

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import EmptyCard from "core/components/card/EmptyCard";
 import BookingCard from "features/booking/components/card/booking/BookingCard";
 import useBookingHistory from "features/booking/hooks/components/booking/useBookingHistory";
@@ -28,15 +29,23 @@ const BookingHistory: FC<TBookingHistory> = ({ isViewLink, perPage }) => {
       {bookings.length > 0 ? (
         bookings.map(
           (
-            { _id, requestTime, startLocation, endLocation }: IBooking,
+            { _id, requestTime, startLocation, endLocation, status }: IBooking,
             index: number
           ) => (
-            <Link to={`/bookings/${_id}`} key={index}>
+            <Link
+              to={`/bookings/${_id}`}
+              key={index}
+              className={classNames(
+                "flex w-full flex-col",
+                index !== bookings.length - 1 ? "mb-3" : ""
+              )}
+            >
               <BookingCard
                 key={index}
                 date={moment(requestTime).format("YYYY/M/DD")}
                 startLocation={startLocation.address}
                 endLocation={endLocation?.address}
+                status={status}
               />
             </Link>
           )

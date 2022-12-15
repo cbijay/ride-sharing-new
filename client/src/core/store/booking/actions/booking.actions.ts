@@ -61,6 +61,13 @@ export const bookingActions = {
     state.isDisabled = action.payload;
   },
 
+  setButtonDisable: (state: BookingState, action: PayloadAction<number>) => {
+    let disabled: any = [];
+    disabled = [...disabled, action.payload];
+
+    state.disabled = disabled;
+  },
+
   fetchBookings: (state: BookingState, action: PayloadAction<IBooking[]>) => {
     state.bookings = action.payload;
   },

@@ -1,12 +1,14 @@
 import { RootState } from "core/store";
 import { FaClock, FaHome, FaSuitcaseRolling } from "react-icons/fa";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 
 const useAppSidebar = () => {
   const { role } = useSelector((state: RootState) => state.user);
   const { pathname } = useLocation();
+  const { isShowSidebar } = useSelector((state: RootState) => state.sidebar);
+  const dispatch = useDispatch();
 
   const sidebarItems = [
     {
@@ -35,7 +37,7 @@ const useAppSidebar = () => {
     },
   ];
 
-  return { sidebarItems, role, pathname };
+  return { sidebarItems, role, pathname, isShowSidebar, dispatch };
 };
 
 export default useAppSidebar;

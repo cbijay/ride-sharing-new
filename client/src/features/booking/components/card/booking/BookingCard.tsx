@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import Card from "core/components/card/Card";
 import { TBookingCard } from "core/types/components/card/TBookingCard";
 
@@ -8,9 +9,16 @@ const BookingCard: FC<TBookingCard> = ({
   date,
   startLocation,
   endLocation,
+  status,
+  className,
 }) => {
   return (
-    <Card className="flex flex-row justify-between items-center">
+    <Card
+      className={classNames(
+        "flex flex-row justify-between items-center shadow-lg",
+        className
+      )}
+    >
       <div data-testid="booking-card">
         {date && (
           <h3 className="text-md mb-1 text-gray-700 italic font-medium">
@@ -31,6 +39,19 @@ const BookingCard: FC<TBookingCard> = ({
           </h5>
         )}
       </div>
+      {status && (
+        <p
+          className={
+            status === "Pending"
+              ? "text-blue-400"
+              : status === "Completed"
+              ? "text-success"
+              : "text-red-500"
+          }
+        >
+          {status}
+        </p>
+      )}
     </Card>
   );
 };

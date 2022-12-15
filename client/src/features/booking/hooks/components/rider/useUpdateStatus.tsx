@@ -29,16 +29,22 @@ const useUpdateStatus = ({
   const dispatch = useDispatch();
 
   const handleStatus = (value: number) => {
-    if (token && bookingId) {
-      const formValues = {
+    let formValues;
+    if (token) {
+      formValues = {
         id: bookingId,
         token: token,
         status: value,
       };
-
-      dispatch(setDisabled(true));
-      mutate(formValues);
     }
+
+    formValues = {
+      id: bookingId,
+      status: value,
+    };
+
+    dispatch(setDisabled(true));
+    mutate(formValues);
   };
 
   useEffect(() => {

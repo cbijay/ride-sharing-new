@@ -10,6 +10,7 @@ export type BookingState = {
   isLoading: boolean;
   error: Error;
   isDisabled: boolean;
+  disabled: [number];
 };
 
 export const initialState: BookingState = {
@@ -38,6 +39,7 @@ export const initialState: BookingState = {
     message: "",
   },
   isDisabled: false,
+  disabled: [0],
 };
 
 const bookingSlice = createSlice({
@@ -57,6 +59,7 @@ export const {
   storeBookingUser,
   setError,
   setDisabled,
+  setButtonDisable,
   fetchBookings,
 } = bookingSlice.actions;
 

@@ -20,16 +20,20 @@ const RiderList = () => {
               profilePic,
             }: IBookingRider,
             index
-          ) => (
-            <RiderCard
-              key={index}
-              riderId={_id}
-              name={name}
-              vehicleName={`${color} ${model} ${number}`}
-              profilePic={profilePic}
-              className="mb-2"
-            />
-          )
+          ) => {
+            // const cardIndex = index + 1;
+            return (
+              <RiderCard
+                key={index + 1}
+                riderId={_id}
+                index={index + 1}
+                name={name}
+                vehicleName={`${color} ${model} ${number}`}
+                profilePic={profilePic}
+                className="mb-2"
+              />
+            );
+          }
         )
       ) : (
         <EmptyCard message="No booking exists" />

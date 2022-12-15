@@ -230,15 +230,10 @@ Project has been structured according to feature type convetion of react. Tailwi
 ├── README.md
 ├── cypress
 │   ├── e2e
-│   │   ├── app.cy.ts
-│   │   └── cypress
-│   │       ├── fixtures
-│   │       │   └── example.json
-│   │       └── support
-│   │           ├── commands.ts
-│   │           └── e2e.js
+│   │   └── user_app.cy.ts
 │   ├── fixtures
 │   │   └── example.json
+│   ├── index.ts
 │   ├── support
 │   │   ├── commands.ts
 │   │   └── e2e.ts
@@ -248,7 +243,6 @@ Project has been structured according to feature type convetion of react. Tailwi
 ├── package-lock.json
 ├── package.json
 ├── public
-│   ├── fe_project_structure.png
 │   ├── index.html
 │   ├── manifest.json
 │   ├── ride_share_logo.png
@@ -331,6 +325,11 @@ Project has been structured according to feature type convetion of react. Tailwi
 │   │   │   │   │   └── rider.actions.ts
 │   │   │   │   └── reducer
 │   │   │   │       └── rider.reducer.ts
+│   │   │   ├── sidebar
+│   │   │   │   ├── actions
+│   │   │   │   │   └── sidebar.actions.ts
+│   │   │   │   └── reducer
+│   │   │   │       └── sidebar.reducer.ts
 │   │   │   ├── stat
 │   │   │   │   ├── actions
 │   │   │   │   │   └── stat.actions.ts
@@ -374,6 +373,13 @@ Project has been structured according to feature type convetion of react. Tailwi
 │   │   └── utils
 │   │       ├── tests
 │   │       │   ├── client.tsx
+│   │       │   ├── handler
+│   │       │   │   ├── booking.handler.tsx
+│   │       │   │   ├── bookingDetail.handler.tsx
+│   │       │   │   ├── dashboard.handler.tsx
+│   │       │   │   ├── map.handler.tsx
+│   │       │   │   ├── rider.handler.tsx
+│   │       │   │   └── signup.handler.tsx
 │   │       │   ├── handler.tsx
 │   │       │   ├── render.tsx
 │   │       │   └── wrapper.tsx
@@ -381,8 +387,11 @@ Project has been structured according to feature type convetion of react. Tailwi
 │   ├── features
 │   │   ├── auth
 │   │   │   ├── __tests__
-│   │   │   │   ├── Login.test.js
-│   │   │   │   └── Signup.test.js
+│   │   │   │   ├── hooks
+│   │   │   │   │   └── useSignupUser.test.js
+│   │   │   │   └── pages
+│   │   │   │       ├── Login.test.js
+│   │   │   │       └── Signup.test.js
 │   │   │   ├── api
 │   │   │   │   ├── login.ts
 │   │   │   │   └── signup.ts
@@ -408,8 +417,9 @@ Project has been structured according to feature type convetion of react. Tailwi
 │   │   │   ├── __tests__
 │   │   │   │   ├── components
 │   │   │   │   │   └── BookingHistory.test.js
-│   │   │   │   └── pages
-│   │   │   │       └── BookingDetail.test.js
+│   │   │   │   └── hooks
+│   │   │   │       ├── useFetchBookingHistory.test.js
+│   │   │   │       └── useFindRider.test.js
 │   │   │   ├── api
 │   │   │   │   ├── booking.tsx
 │   │   │   │   └── rider.tsx
@@ -428,7 +438,6 @@ Project has been structured according to feature type convetion of react. Tailwi
 │   │   │   │   ├── distance_time
 │   │   │   │   │   └── DistanceTime.tsx
 │   │   │   │   ├── form
-│   │   │   │   │   ├── BookingForm._test.js
 │   │   │   │   │   └── BookingForm.tsx
 │   │   │   │   ├── history
 │   │   │   │   │   └── BookingHistory.tsx
@@ -436,10 +445,9 @@ Project has been structured according to feature type convetion of react. Tailwi
 │   │   │   │   │   ├── MapRoute.tsx
 │   │   │   │   │   └── RideMap.tsx
 │   │   │   │   ├── riders
-│   │   │   │   │   ├── BookRider.tsx
 │   │   │   │   │   └── RiderList.tsx
 │   │   │   │   └── step_form
-│   │   │   │       ├── BookRide.tsx
+│   │   │   │       ├── BookRider.tsx
 │   │   │   │       └── FindRider.tsx
 │   │   │   ├── hooks
 │   │   │   │   ├── api
@@ -448,14 +456,12 @@ Project has been structured according to feature type convetion of react. Tailwi
 │   │   │   │   │   ├── useBookingStatus.tsx
 │   │   │   │   │   ├── useFetchBookingDetail.tsx
 │   │   │   │   │   ├── useFetchBookingHistory.tsx
-│   │   │   │   │   ├── useFetchCurrentBooking.tsx
 │   │   │   │   │   └── useFindRider.tsx
 │   │   │   │   ├── components
 │   │   │   │   │   ├── autocomplete
 │   │   │   │   │   │   └── useAutoComplete.tsx
 │   │   │   │   │   ├── booking
-│   │   │   │   │   │   ├── useBookingHistory.tsx
-│   │   │   │   │   │   └── useCurrentBooking.tsx
+│   │   │   │   │   │   └── useBookingHistory.tsx
 │   │   │   │   │   ├── form
 │   │   │   │   │   │   └── useBookingForm.tsx
 │   │   │   │   │   ├── map
@@ -465,6 +471,7 @@ Project has been structured according to feature type convetion of react. Tailwi
 │   │   │   │   │       ├── useRiderRequest.tsx
 │   │   │   │   │       └── useUpdateStatus.tsx
 │   │   │   │   └── pages
+│   │   │   │       ├── useBookRide.tsx
 │   │   │   │       └── useBookingDetail.tsx
 │   │   │   ├── pages
 │   │   │   │   ├── BookRide.tsx
@@ -480,9 +487,11 @@ Project has been structured according to feature type convetion of react. Tailwi
 │   │   │       └── IUserBooking.ts
 │   │   └── dashboard
 │   │       ├── __tests__
-│   │       │   └── components
-│   │       │       ├── DashboardCard.test.js
-│   │       │       └── DashboardStat.test.js
+│   │       │   ├── components
+│   │       │   │   ├── DashboardCard.test.js
+│   │       │   │   └── DashboardStat.test.js
+│   │       │   └── hooks
+│   │       │       └── useDashboardStat.test.js
 │   │       ├── api
 │   │       │   └── dashboard.tsx
 │   │       ├── components
@@ -492,7 +501,7 @@ Project has been structured according to feature type convetion of react. Tailwi
 │   │       │       └── DashboardStat.tsx
 │   │       ├── hooks
 │   │       │   ├── api
-│   │       │   │   └── useDashboardStat.tsx
+│   │       │   │   └── useFetchDashboardStat.tsx
 │   │       │   └── components
 │   │       │       └── useDashboardStat.tsx
 │   │       ├── pages

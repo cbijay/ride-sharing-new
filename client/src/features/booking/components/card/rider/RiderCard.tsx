@@ -25,7 +25,6 @@ const RiderCard: FC<TRider> = ({
   index,
 }) => {
   const { handleBooking, disabled } = useRider(riderId);
-  console.log("🚀 ~ file: RiderCard.tsx:27 ~ index", disabled.includes(index));
 
   return (
     <Card

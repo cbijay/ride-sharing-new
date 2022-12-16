@@ -11,32 +11,31 @@ import History from "features/booking/pages/History";
 import RiderRequest from "features/booking/pages/RiderRequest";
 import { default as Dashboard } from "features/dashboard/pages/Dashboard";
 
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useRoutes } from "react-router-dom";
+import { Navigate, useNavigate, useRoutes } from "react-router-dom";
 
 const useAppRoute = () => {
   const { isLoggedIn, role } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
-  const redirectToDashboard = () => {
-    if (isLoggedIn && role == "user") navigate("/user/dashboard");
-    if (isLoggedIn && role == "rider") navigate("/rider/dashboard");
-  };
+  // const redirectToDashboard = () => {
+  //   if (isLoggedIn && role == "user") navigate("/user/dashboard");
+  //   if (isLoggedIn && role == "rider") navigate("/rider/dashboard");
+  // };
 
-  useEffect(() => {
-    redirectToDashboard();
-    return () => redirectToDashboard();
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   redirectToDashboard();
+  //   return () => redirectToDashboard();
+  // }, [isLoggedIn]);
 
   return useRoutes([
     {
       path: "/",
-      element: <Login />,
+      element: isLoggedIn ? <Navigate to={`${role}/dashboard`} /> : <Login />,
     },
     {
       path: "/signup",
-      element: <Signup />,
+      element: isLoggedIn ? <Navigate to={`${role}/dashboard`} /> : <Signup />,
     },
     {
       path: "/user",

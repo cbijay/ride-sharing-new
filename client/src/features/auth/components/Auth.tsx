@@ -15,7 +15,6 @@ export const Auth: FC<TAuth> = ({ title, onSuccess, text, footer }) => {
 
       <div className="mb-4">
         <div id="google-login">
-          {/* <Button onClick={() => onSuccess()}>Login</Button> */}
           <GoogleLogin
             text={text}
             onSuccess={(success) => onSuccess(success)}

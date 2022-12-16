@@ -6,7 +6,7 @@ export type AuthState = {
   email: string;
   profilePic: string;
   userId: string;
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
   role: string;
 };
 
@@ -15,7 +15,6 @@ export const initialState: AuthState = {
   email: "",
   profilePic: "",
   userId: "",
-  isLoggedIn: false,
   role: "",
 };
 

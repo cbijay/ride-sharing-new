@@ -61,7 +61,7 @@ const Autocomplete: FC<TAutocomplete> = ({
           {places &&
             places.map((place: any, index: number) => (
               <li
-                data-testid="place"
+                data-testid={`place-${name}`}
                 key={index}
                 onClick={() => {
                   handlePlace && handlePlace(place);

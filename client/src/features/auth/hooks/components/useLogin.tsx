@@ -29,13 +29,15 @@ const useLogin = () => {
         })
       );
     }
-    if (isError)
+
+    if (isError) {
       dispatch(
         addNotification({
           type: "Error",
           message: error?.message,
         })
       );
+    }
   }, [loginData, isError]);
 
   const handleLogin = async (response: CredentialResponse) => {

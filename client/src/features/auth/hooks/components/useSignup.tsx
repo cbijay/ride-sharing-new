@@ -1,13 +1,11 @@
 import { CredentialResponse } from "@react-oauth/google";
 import { UseMutationResult } from "@tanstack/react-query";
-// import { auth } from "core/store/auth/reducer/auth.reducer";
 import { IAuthResponse, ISignup } from "features/auth/types/IAuthResponse";
 
-import { useSignupUser } from "features/auth/hooks/api/useSignupUser";
-import useGeoLocation from "features/auth/hooks/components/useGeoLocation";
-// import { useEffect } from "react";
 import { auth } from "core/store/auth/reducer/auth.reducer";
 import { addNotification } from "core/store/toast/reducer/toast.reducer";
+import { useSignupUser } from "features/auth/hooks/api/useSignupUser";
+import useGeoLocation from "features/auth/hooks/components/useGeoLocation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 

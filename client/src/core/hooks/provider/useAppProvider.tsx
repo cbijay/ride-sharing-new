@@ -19,10 +19,10 @@ const useAppProvider = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        // refetchOnWindowFocus: false,
-        // refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
         retry: false,
-        // staleTime: twentyFourHoursInMs,
+        staleTime: twentyFourHoursInMs,
       },
     },
   });

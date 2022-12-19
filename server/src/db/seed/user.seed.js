@@ -15,7 +15,6 @@ async function seedUser() {
 
     if (collectionCount > 0) userCollection.drop();
 
-    // make a bunch of time series data
     let total = 5;
     let users = [];
 

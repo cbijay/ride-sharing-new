@@ -5,9 +5,7 @@ dotenv.config();
 
 export default defineConfig({
   e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
+    setupNodeEvents(on, config) {},
   },
   env: {
     clientUrl: process.env.REACT_APP_CLIENT_URL,

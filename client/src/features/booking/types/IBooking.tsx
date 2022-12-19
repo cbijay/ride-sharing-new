@@ -28,6 +28,4 @@ export interface IBookingStatus {
   id?: string;
   status: number;
   token?: string;
-  // role?: string;
-  // userId?: string;
 }

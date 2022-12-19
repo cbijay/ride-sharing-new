@@ -93,7 +93,6 @@ exports.updateBookingStatus = async (req, res, next) => {
     const {
       params: { bookingId, status },
       user: { userId, role },
-      // body: { userId, role },
     } = req;
 
     const { type, message, statusCode, booking } =

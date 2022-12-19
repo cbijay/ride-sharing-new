@@ -20,7 +20,5 @@ describe("useSignupUser", () => {
     await waitFor(() => {
       return result.current.isSuccess;
     });
-
-    // expect(result.current.isSuccess).toBe(true);
   });
 });

@@ -21,12 +21,12 @@ const RiderList = () => {
             }: IBookingRider,
             index
           ) => {
-            // const cardIndex = index + 1;
+            const cardIndex = index + 1;
             return (
               <RiderCard
-                key={index + 1}
+                key={cardIndex}
                 riderId={_id}
-                index={index + 1}
+                index={cardIndex}
                 name={name}
                 vehicleName={`${color} ${model} ${number}`}
                 profilePic={profilePic}

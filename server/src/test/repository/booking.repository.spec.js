@@ -29,10 +29,6 @@ describe("Booking Repository", () => {
     bookingId = faker.database.mongodbObjectId();
   });
 
-  // after(() => {
-  //   Booking.aggregate.restore();
-  // });
-
   describe("bookRide", () => {
     it("should book ride", async () => {
       const stub = sinon.stub(Booking, "create").returns(stubValue);

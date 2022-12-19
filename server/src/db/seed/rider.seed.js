@@ -14,7 +14,6 @@ async function seedUser() {
     const userCollection = client.db("ridesharing").collection("users");
     const riderCollection = client.db("ridesharing").collection("riders");
 
-    // make a bunch of time series data
     let total = 5;
     let users = [];
     let riders = [];

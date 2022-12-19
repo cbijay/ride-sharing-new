@@ -5,11 +5,11 @@ module.exports = {
   },
   theme: {
     fontSize: {
-      xxs: "0.5rem", //8px
-      xs: "0.75rem", //12px
-      sm: "0.875rem", //14px
+      xxs: "0.5rem",
+      xs: "0.75rem",
+      sm: "0.875rem",
       base: "1rem",
-      md: "1.125rem", //
+      md: "1.125rem",
       lg: "1.25rem",
       xl: "1.5rem",
       "2xl": "1.875rem",
@@ -29,22 +29,16 @@ module.exports = {
     },
     screens: {
       xs: "400px",
-      // => @media (min-width: 400px) { ... }
 
       sm: "640px",
-      // => @media (min-width: 640px) { ... }
 
       md: "768px",
-      // => @media (min-width: 768px) { ... }
 
       lg: "1024px",
-      // => @media (min-width: 1024px) { ... }
 
       xl: "1280px",
-      // => @media (min-width: 1280px) { ... }
 
       "2xl": "1536px",
-      // => @media (min-width: 1536px) { ... }
     },
     extend: {
       colors: {
@@ -64,23 +58,18 @@ module.exports = {
           maxWidth: "100%",
           padding: "1em",
           "@screen sm": {
-            //640px
             maxWidth: "600px",
           },
           "@screen md": {
-            //768px
             maxWidth: "700px",
           },
           "@screen lg": {
-            //1024px
             maxWidth: "980px",
           },
           "@screen xl": {
-            //1280px
             maxWidth: "1200px",
           },
           "@screen 2xl": {
-            //1536px
             maxWidth: "1400px",
           },
         },

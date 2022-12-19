@@ -4,11 +4,6 @@ const { Logger } = require("../logs/logger");
 
 const connectDb = async () => {
   try {
-    //Database Connect
-    // const connection = await mongoose.connect(config.db.uri, () => {
-    //   Logger.info("Database Connected");
-    // });
-
     mongoose
       .connect(config.db.uri)
       .then(() => {

@@ -12,21 +12,10 @@ import RiderRequest from "features/booking/pages/RiderRequest";
 import { default as Dashboard } from "features/dashboard/pages/Dashboard";
 
 import { useSelector } from "react-redux";
-import { Navigate, useNavigate, useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 
 const useAppRoute = () => {
   const { isLoggedIn, role } = useSelector((state: RootState) => state.user);
-  const navigate = useNavigate();
-
-  // const redirectToDashboard = () => {
-  //   if (isLoggedIn && role == "user") navigate("/user/dashboard");
-  //   if (isLoggedIn && role == "rider") navigate("/rider/dashboard");
-  // };
-
-  // useEffect(() => {
-  //   redirectToDashboard();
-  //   return () => redirectToDashboard();
-  // }, [isLoggedIn]);
 
   return useRoutes([
     {

@@ -30,27 +30,5 @@ Cypress.Commands.add("loginByGoogleApi", () => {
       cy.log(accessToken);
       cy.setCookie("ride_sharing", accessToken);
     });
-
-    // cy.request({
-    //   method: "GET",
-    //   url: "https://www.googleapis.com/oauth2/v3/userinfo",
-    //   headers: { Authorization: `Bearer ${access_token}` },
-    // }).then(({ body }) => {
-    //   cy.log(body);
-    //   const userItem = {
-    //     token: id_token,
-    //     user: {
-    //       googleId: body.sub,
-    //       email: body.email,
-    //       givenName: body.given_name,
-    //       familyName: body.family_name,
-    //       imageUrl: body.picture,
-    //     },
-    //   };
-
-    //   cy.setCookie("ride_sharing", id_token);
-    //   // window.localStorage.setItem("googleCypress", JSON.stringify(userItem));
-    //   cy.visit("http://localhost:3000/user/dashboard");
-    // });
   });
 });

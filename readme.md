@@ -2,7 +2,7 @@
 
 It is a ride sharing app built using react as a frontend, express as a backend and mongodb as a database. On client side React query has been used to fetch api requests, Redux and tookit for state management, react testing library and cypress for testing.
 
-On server side jwt and google auth library has been used for authentication, mocha, chai and sinon js for testing, swagger ui for api docs and nodemailer for mail. It is also part of assignment to handle complex problems in a better way and know more about testing the application..
+On server side jwt and google auth library has been used for authentication, mocha, chai and sinon js for testing, swagger ui for api docs and nodemailer for mail. It is also part of assignment to handle complex problems in a better way and know more about testing the application.
 
 ## Getting Started
 
